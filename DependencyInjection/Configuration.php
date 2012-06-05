@@ -1,6 +1,6 @@
 <?php
 
-namespace Sly\Bundle\UrlShortenerBundle\DependencyInjection;
+namespace Sly\UrlShortenerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

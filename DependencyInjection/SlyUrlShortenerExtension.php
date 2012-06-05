@@ -1,6 +1,6 @@
 <?php
 
-namespace Sly\Bundle\UrlShortenerBundle\DependencyInjection;
+namespace Sly\UrlShortenerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
