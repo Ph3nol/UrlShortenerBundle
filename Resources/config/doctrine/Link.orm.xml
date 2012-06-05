@@ -1,0 +1,16 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Sly\UrlShortenerBundle\Entity\Link" table="url_shortener">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="hash" column="hash" type="string" length="255" />
+        <field name="url" column="url" type="string" length="255" />
+        
+        <field name="createdAt" column="created_at" type="datetime" />
+    </entity>
+</doctrine-mapping>
