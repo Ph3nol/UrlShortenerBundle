@@ -1,0 +1,25 @@
+{
+    "name": "sly/urlshortenerbundle",
+    "type": "symfony-bundle",
+    "description": "Manage internal and distant shortened URLs easily.",
+    "keywords": ["url", "shortener", "shortening", "minilink", "bitly", "googl", "symfony"],
+    "homepage": "https://github.com/Ph3nol/UrlShortenerBundle",
+    "license": "MIT",
+    "authors": [{
+        "name": "Cédric Dugat",
+        "email": "ph3@slynett.com"
+    }],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.*",
+        "symfony/console": "2.*",
+        "doctrine/orm": "2.*",
+        "doctrine/dbal": "2.*"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": { "Sly\\UrlShortenerBundle": "" }
+    },
+    "target-dir": "Sly/UrlShortenerBundle"
+}
