@@ -1,5 +1,5 @@
 {
-    "name": "sly/urlshortenerbundle",
+    "name": "sly/url-shortener-bundle",
     "type": "symfony-bundle",
     "description": "Manage internal and distant shortened URLs easily.",
     "keywords": ["url", "shortener", "shortening", "minilink", "mini", "link", "bitly", "googl", "symfony"],
