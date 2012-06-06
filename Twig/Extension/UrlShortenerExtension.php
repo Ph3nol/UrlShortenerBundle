@@ -21,7 +21,7 @@ class UrlShortenerExtension extends \Twig_Extension
      */
     public function __construct(\Twig_Environment $twig)
     {
-        $this->twig   = $twig;
+        $this->twig = $twig;
     }
 
     /**
