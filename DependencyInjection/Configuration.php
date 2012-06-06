@@ -21,7 +21,14 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sly_url_shortener');
+        
+        $treeBuilder
+            ->root('sly_url_shortener')
+            ->children()
+                ->variableNode('objects')->defaultValue(array())->end()
+                    ->scalarNode('provider')->defaultValue('internal')->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }
