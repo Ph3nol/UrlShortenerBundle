@@ -17,6 +17,21 @@ class Link implements LinkInterface
     protected $id;
 
     /**
+     * @var object
+     */
+    protected $obj;
+
+    /**
+     * @var string
+     */
+    protected $objModel;
+
+    /**
+     * @var integer
+     */
+    protected $objId;
+
+    /**
      * @var string
      */
     protected $hash;
@@ -53,6 +68,39 @@ class Link implements LinkInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     * 
+     * @param object $object Object
+     */
+    public function setObject($object)
+    {
+        if (!is_object($object))
+        {
+            throw new \InvalidArgumentException('You must pass an object for URL shortening');
+        }
+
+        $this->object = $object;
+        $this->setObjectModel(get_class($object));
+        $this->setObjectId($object->getId());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setObjectModel($objectModel)
+    {
+        $this->objectModel = $objectModel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
     }
 
     /**

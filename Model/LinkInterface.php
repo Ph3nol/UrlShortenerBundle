@@ -20,6 +20,21 @@ interface LinkInterface
     public function setId($id);
 
     /**
+     * @param object $object
+     */
+    public function setObject($object);
+
+    /**
+     * @param string $objectModel
+     */
+    public function setObjectModel($objectModel);
+
+    /**
+     * @param string $obectjId
+     */
+    public function setObjectId($objectId);
+
+    /**
      * @return string
      */
     public function getHash();

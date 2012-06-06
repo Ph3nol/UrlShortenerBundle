@@ -8,6 +8,8 @@
             <generator strategy="AUTO" />
         </id>
 
+        <field name="objectModel" column="object_model" type="string" length="255" />
+        <field name="objectId" column="object_id" type="integer" length="11" />
         <field name="hash" column="hash" type="string" length="255" />
         <field name="url" column="url" type="string" length="255" />
         
