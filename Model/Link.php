@@ -19,17 +19,17 @@ class Link implements LinkInterface
     /**
      * @var object
      */
-    protected $obj;
+    protected $object;
 
     /**
      * @var string
      */
-    protected $objModel;
+    protected $objectModel;
 
     /**
      * @var integer
      */
-    protected $objId;
+    protected $objectId;
 
     /**
      * @var string
