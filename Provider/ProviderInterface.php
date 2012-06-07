@@ -9,4 +9,8 @@ namespace Sly\UrlShortenerBundle\Provider;
  */
 interface ProviderInterface
 {
+    /**
+     * @return string Generated hash
+     */
+    public function generate();
 }
