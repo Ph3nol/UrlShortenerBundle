@@ -77,8 +77,7 @@ class Link implements LinkInterface
      */
     public function setObject($object)
     {
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             throw new \InvalidArgumentException('You must pass an object for URL shortening');
         }
 

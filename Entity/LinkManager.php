@@ -25,7 +25,7 @@ class LinkManager implements LinkManagerInterface
     protected $link;
 
     /**
-     * @param ObjectManager $em Entity manager service
+     * @param ObjectManager $em   Entity manager service
      * @param LinkInterface $link Link model
      */
     public function __construct(ObjectManager $em, LinkInterface $link)

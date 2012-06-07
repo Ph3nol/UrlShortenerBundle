@@ -30,7 +30,7 @@ interface LinkInterface
     public function setObjectModel($objectModel);
 
     /**
-     * @param string $obectjId
+     * @param string $objectId
      */
     public function setObjectId($objectId);
 
