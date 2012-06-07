@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManager;
  * @uses BaseManager
  * @author Cédric Dugat <ph3@slynett.com>
  */
-class Manager implements ManagerInterface extends BaseManager
+class Manager extends BaseManager implements ManagerInterface
 {
     /**
      * @var EntityManager
