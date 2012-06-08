@@ -12,4 +12,13 @@ use Sly\UrlShortenerBundle\Model\Link as BaseLink;
  */
 class Link extends BaseLink
 {
+    /**
+     * __toString.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getUrl();
+    }
 }

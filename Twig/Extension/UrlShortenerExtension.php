@@ -41,19 +41,20 @@ class UrlShortenerExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'shorturl_render' => new \Twig_Function_Method($this, 'renderShortUrl'),
+            'render_longurl' => new \Twig_Function_Method($this, 'renderLongUrlFromHash'),
         );
     }
 
     /**
-     * Render short URL.
+     * Render long URL from hash.
      * 
-     * @param Link $link Link object
+     * @param string $hash Hash
      *
      * @return string
      */
-    public function renderShortUrl(Link $link)
+    public function renderLongUrlFromHash($hash)
     {
+        return $this->manager->getLongUrlFromHash($hash);
     }
 
     /**
