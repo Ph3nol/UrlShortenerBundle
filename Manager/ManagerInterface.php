@@ -9,4 +9,31 @@ namespace Sly\UrlShortenerBundle\Manager;
  */
 interface ManagerInterface
 {
+    /**
+     * @param object $object Object
+     * 
+     * @return Link
+     */
+    public function getLinkEntityFromObject($object);
+
+    /**
+     * @param string $hash Hash
+     * 
+     * @return Link
+     */
+    public function getLongUrlFromHash($hash);
+
+    /**
+     * @param string $shortUrl Short URL
+     * 
+     * @return Link
+     */
+    public function getLongUrlFromShortUrl($shortUrl);
+
+    /**
+     * @param string $url Long URL
+     * 
+     * @return Link
+     */
+    public function getHashFromLongUrl($url);
 }

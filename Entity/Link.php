@@ -19,6 +19,6 @@ class Link extends BaseLink
      */
     public function __toString()
     {
-        return $this->getUrl();
+        return $this->getShortUrl();
     }
 }

@@ -25,9 +25,9 @@ interface LinkInterface
     public function setObject($object);
 
     /**
-     * @param string $objectModel
+     * @param string $objectEntity
      */
-    public function setObjectModel($objectModel);
+    public function setObjectEntity($objectEntity);
 
     /**
      * @param string $objectId
@@ -47,12 +47,22 @@ interface LinkInterface
     /**
      * @return string
      */
-    public function getUrl();
+    public function getShortUrl();
 
     /**
-     * @param string $url
+     * @param string $shortUrl
      */
-    public function setUrl($url);
+    public function setShortUrl($shortUrl);
+
+    /**
+     * @return string
+     */
+    public function getLongUrl();
+
+    /**
+     * @param string $longUrl
+     */
+    public function setLongUrl($longUrl);
 
     /**
      * @param DateTime $createdAt

@@ -24,12 +24,17 @@ class Link implements LinkInterface
     /**
      * @var string
      */
-    protected $objectModel;
+    protected $objectEntity;
 
     /**
      * @var integer
      */
     protected $objectId;
+
+    /**
+     * @var integer
+     */
+    protected $provider;
 
     /**
      * @var string
@@ -39,7 +44,12 @@ class Link implements LinkInterface
     /**
      * @var string
      */
-    protected $url;
+    protected $shortUrl;
+
+    /**
+     * @var string
+     */
+    protected $longUrl;
 
     /**
      * @var \DateTime
@@ -51,7 +61,7 @@ class Link implements LinkInterface
      */
     public function __construct()
     {
-        $this->createdAt     = new \DateTime();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -82,16 +92,16 @@ class Link implements LinkInterface
         }
 
         $this->object = $object;
-        $this->setObjectModel(get_class($object));
+        $this->setObjectEntity(get_class($object));
         $this->setObjectId($object->getId());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setObjectModel($objectModel)
+    public function setObjectEntity($objectEntity)
     {
-        $this->objectModel = $objectModel;
+        $this->objectEntity = $objectEntity;
     }
 
     /**
@@ -100,6 +110,14 @@ class Link implements LinkInterface
     public function setObjectId($objectId)
     {
         $this->objectId = $objectId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
     }
 
     /**
@@ -121,17 +139,33 @@ class Link implements LinkInterface
     /**
      * {@inheritdoc}
      */
-    public function getUrl()
+    public function getShortUrl()
     {
-        return $this->url;
+        return $this->shortUrl;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setUrl($url)
+    public function setShortUrl($shortUrl)
     {
-        $this->url = $url;
+        $this->shortUrl = $shortUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLongUrl()
+    {
+        return $this->longUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLongUrl($longUrl)
+    {
+        $this->longUrl = $longUrl;
     }
 
     /**
@@ -157,8 +191,10 @@ class Link implements LinkInterface
     {
         return array(
             'id',
+            'service',
             'hash',
-            'url',
+            'shortUrl',
+            'longUrl',
             'createdAt',
         );
     }

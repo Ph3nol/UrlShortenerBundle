@@ -12,7 +12,9 @@
         <service id="sly_url_shortener.twig.extension" class="%sly_url_shortener.twig.extension.class%">
             <tag name="twig.extension" />
             <argument type="service" id="twig" />
+            <argument type="service" id="sly_url_shortener.router" />
             <argument type="service" id="sly_url_shortener" />
+            <argument>%sly_url_shortener.config%</argument>
         </service>
     </services>
 

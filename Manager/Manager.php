@@ -29,6 +29,27 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
+     * Get Link entity from linked object.
+     * 
+     * @param object $object Object
+     * 
+     * @return Link
+     */
+    public function getLinkEntityFromObject($object)
+    {
+        $q = $this->getRepository()
+                ->createQueryBuilder('l')
+                ->where('l.objectEntity = :objectEntity')
+                ->andWhere('l.objectId = :objectId')
+                ->setParameters(array(
+                    'objectEntity' => get_class($object),
+                    'objectId'     => $object->getId(),
+                ));
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * Get long URL from hash.
      * 
      * @param string $hash Hash
@@ -46,6 +67,23 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
+     * Get long URL from short URL.
+     * 
+     * @param string $shortUrl Short URL
+     * 
+     * @return Link
+     */
+    public function getLongUrlFromShortUrl($shortUrl)
+    {
+        $q = $this->getRepository()
+                ->createQueryBuilder('l')
+                ->where('l.shortUrl = :shortUrl')
+                ->setParameter('shortUrl', $shortUrl);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * Get hash from URL.
      * 
      * @param string $url Long URL
@@ -56,8 +94,8 @@ class Manager extends BaseManager implements ManagerInterface
     {
         $q = $this->getRepository()
                 ->createQueryBuilder('l')
-                ->where('l.url = :url')
-                ->setParameter('url', $url);
+                ->where('l.longUrl = :longUrl')
+                ->setParameter('longUrl', $url);
 
         return $q->getQuery()->getOneOrNullResult();
     }
