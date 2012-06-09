@@ -1,8 +1,7 @@
 <?php
 
-namespace Sly\UrlShortenerBundle\Provider\Service;
+namespace Sly\UrlShortenerBundle\Provider;
 
-use Buzz\Client\Curl;
 use Sly\UrlShortenerBundle\Provider;
 
 /**
@@ -14,19 +13,6 @@ use Sly\UrlShortenerBundle\Provider;
 class Bitly implements ProviderInterface
 {
     /**
-     * @var Curl
-     */
-    protected $curl;
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->curl = new Curl();
-    }
-
-    /**
      * Generate short URL.
      * 
      * @param string $longUrl Long URL
@@ -35,8 +21,7 @@ class Bitly implements ProviderInterface
      */
     public static function generate($longUrl)
     {
-        /**
-         * @todo
-         */
+        $request = new \Buzz\Message\Request('HEAD', '/', 'http://google.com');
+        $response = new \Buzz\Message\Response();
     }
 }

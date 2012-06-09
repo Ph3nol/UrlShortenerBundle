@@ -5,7 +5,7 @@ namespace Sly\UrlShortenerBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Sly\UrlShortenerBundle\Router\Router;
-use Sly\Sly\UrlShortenerBundle\Entity\Link;
+use Sly\UrlShortenerBundle\Entity\Link;
 
 /**
  * Manager service.
@@ -133,15 +133,13 @@ class Manager extends BaseManager implements ManagerInterface
     {
         $objectEntityClass = get_class($object);
 
-        $shortUrlProviderClass = ucfirst($this->config['entities'][$objectEntityClass]['provider']);
+        $shortUrlProviderClass = sprintf('Sly\UrlShortenerBundle\Provider\%s', ucfirst($this->config['entities'][$objectEntityClass]['provider']));
 
         $shortUrl = $shortUrlProviderClass::generate($this->router->getObjectShowRoute($object));
 
-        echo $shortUrl;
-        exit();
-
-        print_r($this->config['entities']);
-        exit();
+        /**
+         * @todo
+         */
 
         $link = new Link();
 
