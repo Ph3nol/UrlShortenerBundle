@@ -53,10 +53,10 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function getLinkEntityFromObject($object)
     {
-        $itemEntityClass = get_class($object);
+        $objectEntityClass = get_class($object);
 
-        if (false === in_array($itemEntityClass, array_keys($this->config['entities']))) {
-            throw new \Exception(sprintf('There is no "%s" entity in UrlShortener bundle configuration', $itemEntityClass));
+        if (false === in_array($objectEntityClass, array_keys($this->config['entities']))) {
+            throw new \Exception(sprintf('There is no "%s" entity in UrlShortener bundle configuration', $objectEntityClass));
         }
 
         $q = $this->getRepository()
@@ -131,9 +131,29 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLink($object)
     {
-        /**
-         * @todo
-         */
+        $objectEntityClass = get_class($object);
+
+        $shortUrlProviderClass = ucfirst($this->config['entities'][$objectEntityClass]['provider']);
+
+        $shortUrl = $shortUrlProviderClass::generate($this->router->getObjectShowRoute($object));
+
+        echo $shortUrl;
+        exit();
+
+        print_r($this->config['entities']);
+        exit();
+
+        $link = new Link();
+
+        $link->setObjectEntity(get_class($object));
+        $link->setObjectId($object->getId());
+
+        $this->em->persist($link);
+        $this->em->flush($link);
+
+        // $this->router->getObjectShowRoute($item)
+
+        return $link;
     }
 
     /**
