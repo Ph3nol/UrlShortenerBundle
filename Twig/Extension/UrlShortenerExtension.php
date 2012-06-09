@@ -57,18 +57,18 @@ class UrlShortenerExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'render_url' => new \Twig_Function_Method($this, 'renderUrl'),
+            'render_short_url' => new \Twig_Function_Method($this, 'renderShortUrl'),
         );
     }
 
     /**
-     * Render URL.
+     * Render short URL.
      * 
      * @param mixed $item Item (hash, URL or object)
      * 
      * @return string
      */
-    public function renderUrl($item)
+    public function renderShortUrl($item)
     {
         if (is_object($item)) {
             $itemEntityClass = get_class($item);
