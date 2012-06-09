@@ -4,6 +4,8 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Sly\UrlShortenerBundle\Router\Router;
+use Sly\Sly\UrlShortenerBundle\Entity\Link;
 
 /**
  * Manager service.
@@ -19,13 +21,27 @@ class Manager extends BaseManager implements ManagerInterface
     protected $em;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * Constructor.
      * 
-     * @param EntityManager $em Entity Manager service
+     * @param EntityManager $em     Entity Manager service
+     * @param Router        $router Bundle Router service
+     * @param array         $config Bundle configuration
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, Router $router, array $config)
     {
-        $this->em = $em;
+        $this->em     = $em;
+        $this->router = $router;
+        $this->config = $config;
     }
 
     /**
@@ -37,6 +53,12 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function getLinkEntityFromObject($object)
     {
+        $itemEntityClass = get_class($object);
+
+        if (false === in_array($itemEntityClass, array_keys($this->config['entities']))) {
+            throw new \Exception(sprintf('There is no "%s" entity in UrlShortener bundle configuration', $itemEntityClass));
+        }
+
         $q = $this->getRepository()
                 ->createQueryBuilder('l')
                 ->where('l.objectEntity = :objectEntity')
@@ -98,6 +120,20 @@ class Manager extends BaseManager implements ManagerInterface
                 ->setParameter('longUrl', $url);
 
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Create new Link.
+     * 
+     * @param object $object Object
+     * 
+     * @return Link
+     */
+    public function createNewLink($object)
+    {
+        /**
+         * @todo
+         */
     }
 
     /**

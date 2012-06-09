@@ -36,4 +36,11 @@ interface ManagerInterface
      * @return Link
      */
     public function getHashFromLongUrl($url);
+
+    /**
+     * @param object $object Object
+     * 
+     * @return Link
+     */
+    public function createNewLink($object);
 }
