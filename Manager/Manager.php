@@ -148,17 +148,19 @@ class Manager extends BaseManager implements ManagerInterface
 
         $this->shortener->setProvider($this->config['entities'][$objectEntityClass]['provider'], $this->config['entities'][$objectEntityClass]['api']);
 
-        $link            = new Link();
-        $createdShortUrl = $this->shortener->createShortUrl($this->router->getObjectShowRoute($object));
+        if ($createdShortUrl = $this->shortener->createShortUrl($this->router->getObjectShowRoute($object))) {
+            $link = new Link();
+            $link->setObjectEntity(get_class($object));
+            $link->setObjectId($object->getId());
+            $link->setShortUrl($createdShortUrl->url);
+            $link->setHash($createdShortUrl->hash);
+            $link->setProvider($this->config['entities'][$objectEntityClass]['provider']);
 
-        $link->setObjectEntity(get_class($object));
-        $link->setObjectId($object->getId());
-        $link->setShortUrl($createdShortUrl->url);
-        $link->setHash($createdShortUrl->hash);
-        $link->setProvider($this->config['entities'][$objectEntityClass]['provider']);
-
-        $this->em->persist($link);
-        $this->em->flush($link);
+            $this->em->persist($link);
+            $this->em->flush($link);
+        } else {
+            return false;
+        }
 
         return $link;
     }

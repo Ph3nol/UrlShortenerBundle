@@ -78,6 +78,8 @@ class Bitly implements ProviderInterface
 
         if ($responseContent->status_code == 200 && $responseContent->status_txt == 'OK') {
             $this->creationData = $responseContent->data;
+        } else {
+            $this->creationData = null;
         }
 
         return $this->creationData;

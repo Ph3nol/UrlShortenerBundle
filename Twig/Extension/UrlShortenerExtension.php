@@ -2,7 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Twig\Extension;
 
-use Symfony\Component\Routing\Route;
 use Sly\UrlShortenerBundle\Entity\Link;
 use Sly\UrlShortenerBundle\Manager\Manager;
 use Sly\UrlShortenerBundle\Manager\ManagerInterface;
@@ -59,9 +58,9 @@ class UrlShortenerExtension extends \Twig_Extension
             if ($link = $this->manager->getLinkEntityFromObject($item)) {
                 return $link->getShortUrl();
             } else {
-                $newShortLink = $this->manager->createNewLink($item);
-
-                return $newShortLink->getShortUrl();
+                if ($newShortLink = $this->manager->createNewLink($item)) {
+                    return $newShortLink->getShortUrl();
+                }
             }
         } else {
             /**
