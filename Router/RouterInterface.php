@@ -3,7 +3,7 @@
 namespace Sly\UrlShortenerBundle\Router;
 
 /**
- * Router service.
+ * Router service interface.
  *
  * @author Cédric Dugat <ph3@slynett.com>
  */

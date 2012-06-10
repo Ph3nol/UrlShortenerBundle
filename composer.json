@@ -15,7 +15,7 @@
         "symfony/console": "2.*",
         "doctrine/orm": "2.*",
         "doctrine/dbal": "2.*",
-        "kriswallsmith/buzz": ">= 0.6"
+        "friendsofsymfony/oauth2-php": "dev-master"
     },
     "suggest": {
     },

@@ -2,6 +2,7 @@
 
 namespace Sly\UrlShortenerBundle\Provider;
 
+use Buzz\Browser;
 use Sly\UrlShortenerBundle\Provider;
 
 /**
@@ -31,25 +32,36 @@ class Bitly implements ProviderInterface
      * Constructor.
      * 
      * @param array  $apiData API data passed from bundle configuration file
-     * @param string $longUrl Long URL
      */
-    public function __construct(array $apiData, $longUrl)
+    public function __construct(array $apiData)
     {
         $this->apiUsername = $apiData['username'];
         $this->apiKey      = $apiData['key'];
-        $this->longUrl     = $longUrl;
     }
+
+    /**
+     * Set long URL.
+     * 
+     * @param string $longUrl Long URL
+     */
+    public function setLongUrl($longUrl)
+    {
+        $this->longUrl = $longUrl;
+    }
+
     /**
      * Create short URL from API.
      * 
      * @return string
      */
-    public static function create()
+    public function create()
     {
-        $request = new \Buzz\Message\Request('HEAD', '/', 'http://slynett.com');
-        $response = new \Buzz\Message\Response();
+        if (!$this->longUrl) {
+            throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
+        }
 
-        $client = new \Buzz\Client\FileGetContents();
-        $client->send($request, $response);
+        /**
+         * @todo
+         */
     }
 }

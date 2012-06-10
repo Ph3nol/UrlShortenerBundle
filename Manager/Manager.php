@@ -4,7 +4,10 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Sly\UrlShortenerBundle\Shortener\Shortener;
+use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
+use Sly\UrlShortenerBundle\Router\RouterInterface;
 use Sly\UrlShortenerBundle\Entity\Link;
 use Sly\UrlShortenerBundle\Provider\Internal,
     Sly\UrlShortenerBundle\Provider\Bitly,
@@ -24,7 +27,12 @@ class Manager extends BaseManager implements ManagerInterface
     protected $em;
 
     /**
-     * @var Router
+     * @var ShortenerInterface
+     */
+    protected $shortener;
+
+    /**
+     * @var RouterInterface
      */
     protected $router;
 
@@ -36,15 +44,17 @@ class Manager extends BaseManager implements ManagerInterface
     /**
      * Constructor.
      * 
-     * @param EntityManager $em     Entity Manager service
-     * @param Router        $router Bundle Router service
-     * @param array         $config Bundle configuration
+     * @param EntityManager      $em        Entity Manager service
+     * @param ShortenerInterface $shortener Shortener service
+     * @param RouterInterface    $router    Bundle Router service
+     * @param array              $config    Bundle configuration
      */
-    public function __construct(EntityManager $em, Router $router, array $config)
+    public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em     = $em;
-        $this->router = $router;
-        $this->config = $config;
+        $this->em        = $em;
+        $this->shortener = $shortener;
+        $this->router    = $router;
+        $this->config    = $config;
     }
 
     /**
@@ -134,15 +144,11 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLink($object)
     {
-        $objectEntityClass     = get_class($object);
-        $shortUrlProviderClass = ucfirst($this->config['entities'][$objectEntityClass]['provider']);
+        $objectEntityClass = get_class($object);
 
-        $shortUrl = new $shortUrlProviderClass(
-            $this->config['entities'][$objectEntityClass]['api'],
-            $this->router->getObjectShowRoute($object)
-        );
+        $this->shortener->setProvider($this->config['entities'][$objectEntityClass]['provider'], $this->config['entities'][$objectEntityClass]['api']);
 
-        exit($shortUrl->create());
+        // $this->shortener->createShortUrl($this->router->getObjectShowRoute($object));
 
         /**
          * @todo

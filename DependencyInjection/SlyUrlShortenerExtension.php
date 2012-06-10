@@ -24,6 +24,7 @@ class SlyUrlShortenerExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('manager.xml');
+        $loader->load('shortener.xml');
         $loader->load('router.xml');
         $loader->load('twig.xml');
 
