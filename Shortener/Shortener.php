@@ -51,7 +51,7 @@ class Shortener implements ShortenerInterface
                 break;
 
             case 'googl':
-                $this->provider = new Googl($providerApiData);
+                $this->provider = new Googl();
 
                 break;
         }
@@ -68,6 +68,6 @@ class Shortener implements ShortenerInterface
     {
         $this->provider->setLongUrl($longUrl);
 
-        return $this->provider->create();
+        return $this->provider->shorten();
     }
 }

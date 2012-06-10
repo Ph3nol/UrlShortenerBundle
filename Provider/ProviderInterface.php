@@ -17,7 +17,7 @@ interface ProviderInterface
     public function setLongUrl($longUrl);
 
     /**
-     * @return object Generated short URL informations
+     * @return array Generated short URL informations
      */
-    public function create();
+    public function shorten();
 }

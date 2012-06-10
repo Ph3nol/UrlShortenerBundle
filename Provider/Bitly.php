@@ -2,21 +2,19 @@
 
 namespace Sly\UrlShortenerBundle\Provider;
 
-use Buzz\Browser;
-use Sly\UrlShortenerBundle\Provider;
-
 /**
  * Bitly provider.
  * For bit.ly URL shortener service.
  *
+ * @uses BaseProvider
  * @author Cédric Dugat <ph3@slynett.com>
  */
-class Bitly implements ProviderInterface
+class Bitly extends BaseProvider implements ProviderInterface
 {
     /**
      * @var string
      */
-    protected $apiUsername;
+    protected $apiLogin;
 
     /**
      * @var string
@@ -45,9 +43,11 @@ class Bitly implements ProviderInterface
      */
     public function __construct(array $apiData)
     {
-        $this->apiUsername = $apiData['username'];
-        $this->apiKey      = $apiData['key'];
-        $this->apiUrl      = sprintf('http://api.bitly.com/v3/shorten?login=%s&apiKey=%s&longUrl=', $this->apiUsername, $this->apiKey);
+        parent::__construct();
+
+        $this->apiLogin = $apiData['username'];
+        $this->apiKey   = $apiData['key'];
+        $this->apiUrl   = 'http://api.bitly.com/v3/shorten';
     }
 
     /**
@@ -58,30 +58,30 @@ class Bitly implements ProviderInterface
     public function setLongUrl($longUrl)
     {
         $this->longUrl = $longUrl;
-        $this->apiUrl  .= urlencode($this->longUrl);
     }
 
     /**
      * Create short URL from API.
      * 
-     * @return object
+     * @return array
      */
-    public function create()
+    public function shorten()
     {
-        if (!$this->longUrl) {
-            throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
-        }
+        parent::shorten();
 
-        $browser         = new Browser();
-        $response        = $browser->get($this->apiUrl);
-        $responseContent = json_decode($response->getContent());
+        $curlResquest = $this->curl;
+        $curlResquest->setUrl($this->apiUrl);
+        $curlResquest->setGetData(array('longUrl' => $this->longUrl, 'login' => $this->apiLogin, 'apiKey' => $this->apiKey));
 
-        if ($responseContent->status_code == 200 && $responseContent->status_txt == 'OK') {
-            $this->creationData = $responseContent->data;
+        $response = $curlResquest->getResponse();
+
+        if ($response->status_code == 200 && $response->status_txt == 'OK') {
+            return array(
+                'hash'     => $response->data->hash,
+                'shortUrl' => $response->data->url,
+            );
         } else {
-            $this->creationData = null;
+            return null;
         }
-
-        return $this->creationData;
     }
 }
