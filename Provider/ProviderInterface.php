@@ -10,9 +10,7 @@ namespace Sly\UrlShortenerBundle\Provider;
 interface ProviderInterface
 {
     /**
-     * @param string $longUrl Long URL
-     * 
      * @return string Generated hash
      */
-    public static function generate($longUrl);
+    public static function create();
 }

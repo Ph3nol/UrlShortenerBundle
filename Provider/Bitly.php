@@ -13,15 +13,43 @@ use Sly\UrlShortenerBundle\Provider;
 class Bitly implements ProviderInterface
 {
     /**
-     * Generate short URL.
+     * @var string
+     */
+    protected $apiUsername;
+
+    /**
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * @var string
+     */
+    protected $longUrl;
+
+    /**
+     * Constructor.
      * 
+     * @param array  $apiData API data passed from bundle configuration file
      * @param string $longUrl Long URL
+     */
+    public function __construct(array $apiData, $longUrl)
+    {
+        $this->apiUsername = $apiData['username'];
+        $this->apiKey      = $apiData['key'];
+        $this->longUrl     = $longUrl;
+    }
+    /**
+     * Create short URL from API.
      * 
      * @return string
      */
-    public static function generate($longUrl)
+    public static function create()
     {
-        $request = new \Buzz\Message\Request('HEAD', '/', 'http://google.com');
+        $request = new \Buzz\Message\Request('HEAD', '/', 'http://slynett.com');
         $response = new \Buzz\Message\Response();
+
+        $client = new \Buzz\Client\FileGetContents();
+        $client->send($request, $response);
     }
 }

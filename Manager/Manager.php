@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Sly\UrlShortenerBundle\Router\Router;
 use Sly\UrlShortenerBundle\Entity\Link;
+use Sly\UrlShortenerBundle\Provider\Internal,
+    Sly\UrlShortenerBundle\Provider\Bitly,
+    Sly\UrlShortenerBundle\Provider\Googl;
 
 /**
  * Manager service.
@@ -131,11 +134,15 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLink($object)
     {
-        $objectEntityClass = get_class($object);
+        $objectEntityClass     = get_class($object);
+        $shortUrlProviderClass = ucfirst($this->config['entities'][$objectEntityClass]['provider']);
 
-        $shortUrlProviderClass = sprintf('Sly\UrlShortenerBundle\Provider\%s', ucfirst($this->config['entities'][$objectEntityClass]['provider']));
+        $shortUrl = new $shortUrlProviderClass(
+            $this->config['entities'][$objectEntityClass]['api'],
+            $this->router->getObjectShowRoute($object)
+        );
 
-        $shortUrl = $shortUrlProviderClass::generate($this->router->getObjectShowRoute($object));
+        exit($shortUrl->create());
 
         /**
          * @todo
