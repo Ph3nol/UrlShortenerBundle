@@ -60,8 +60,11 @@ class Bitly implements ProviderInterface
             throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
         }
 
-        /**
-         * @todo
-         */
+        $apiUrl = 'https://api.bitly.com/v3/shorten?login='.$this->apiUsername.'&apiKey='.$this->apiKey.'&longUrl='.urlencode($this->longUrl);
+
+        $browser = new Browser();
+        $response = $browser->get($apiUrl);
+        echo $response->getContent();
+        exit();
     }
 }

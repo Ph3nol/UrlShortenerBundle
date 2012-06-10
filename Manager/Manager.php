@@ -148,11 +148,8 @@ class Manager extends BaseManager implements ManagerInterface
 
         $this->shortener->setProvider($this->config['entities'][$objectEntityClass]['provider'], $this->config['entities'][$objectEntityClass]['api']);
 
-        // $this->shortener->createShortUrl($this->router->getObjectShowRoute($object));
-
-        /**
-         * @todo
-         */
+        echo $this->shortener->createShortUrl($this->router->getObjectShowRoute($object));
+        exit();
 
         $link = new Link();
 
