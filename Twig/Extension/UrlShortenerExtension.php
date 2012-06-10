@@ -59,7 +59,9 @@ class UrlShortenerExtension extends \Twig_Extension
             if ($link = $this->manager->getLinkEntityFromObject($item)) {
                 return $link->getShortUrl();
             } else {
-                $this->manager->createNewLink($item);
+                $newShortLink = $this->manager->createNewLink($item);
+
+                return $newShortLink->getShortUrl();
             }
         } else {
             /**

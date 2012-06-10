@@ -26,7 +26,17 @@ class Bitly implements ProviderInterface
     /**
      * @var string
      */
+    protected $apiUrl;
+
+    /**
+     * @var string
+     */
     protected $longUrl;
+
+    /**
+     * @var string
+     */
+    protected $creationData;
 
     /**
      * Constructor.
@@ -37,6 +47,7 @@ class Bitly implements ProviderInterface
     {
         $this->apiUsername = $apiData['username'];
         $this->apiKey      = $apiData['key'];
+        $this->apiUrl      = sprintf('http://api.bitly.com/v3/shorten?login=%s&apiKey=%s&longUrl=', $this->apiUsername, $this->apiKey);
     }
 
     /**
@@ -47,12 +58,13 @@ class Bitly implements ProviderInterface
     public function setLongUrl($longUrl)
     {
         $this->longUrl = $longUrl;
+        $this->apiUrl  .= urlencode($this->longUrl);
     }
 
     /**
      * Create short URL from API.
      * 
-     * @return string
+     * @return object
      */
     public function create()
     {
@@ -60,11 +72,14 @@ class Bitly implements ProviderInterface
             throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
         }
 
-        $apiUrl = 'https://api.bitly.com/v3/shorten?login='.$this->apiUsername.'&apiKey='.$this->apiKey.'&longUrl='.urlencode($this->longUrl);
+        $browser         = new Browser();
+        $response        = $browser->get($this->apiUrl);
+        $responseContent = json_decode($response->getContent());
 
-        $browser = new Browser();
-        $response = $browser->get($apiUrl);
-        echo $response->getContent();
-        exit();
+        if ($responseContent->status_code == 200 && $responseContent->status_txt == 'OK') {
+            $this->creationData = $responseContent->data;
+        }
+
+        return $this->creationData;
     }
 }
