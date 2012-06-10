@@ -55,18 +55,66 @@ class UrlShortenerExtension extends \Twig_Extension
     public function renderShortUrl($item)
     {
         if (is_object($item)) {
-            if ($link = $this->manager->getLinkEntityFromObject($item)) {
-                return $link->getShortUrl();
-            } else {
-                if ($newShortLink = $this->manager->createNewLink($item)) {
-                    return $newShortLink->getShortUrl();
-                }
-            }
+            return $this->getShortUrlFromObject($item);
         } else {
-            /**
-             * @todo
-             */
+            if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
+                return $this->getShortUrlFromLongUrl($item);
+            } else {
+                return $this->getShortUrlFromHash($item);
+            }
         }
+    }
+
+    /**
+     * Get from Url.
+     * 
+     * @param object $object Entity object
+     * 
+     * @return string
+     */
+    protected function getShortUrlFromObject($object)
+    {
+        if ($link = $this->manager->getLinkEntityFromObject($object)) {
+            return $link->getShortUrl();
+        } else {
+            if ($newShortLink = $this->manager->createNewLink($object)) {
+                return $newShortLink->getShortUrl();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get short URL from long one.
+     * 
+     * @param string $longUrl Long URL
+     * 
+     * @return string
+     */
+    protected function getShortUrlFromLongUrl($longUrl)
+    {
+        if ($link = $this->manager->getLinkEntityFromLongUrl($longUrl)) {
+            return $link->getShortUrl();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get short URL from hash.
+     * 
+     * @param string $hash Hash
+     * 
+     * @return string
+     */
+    protected function getShortUrlFromHash($hash)
+    {
+        if ($link = $this->manager->getLinkEntityFromHash($hash)) {
+            return $link->getShortUrl();
+        }
+
+        return null;
     }
 
     /**

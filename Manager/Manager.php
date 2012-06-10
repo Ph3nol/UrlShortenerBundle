@@ -85,52 +85,35 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get long URL from hash.
+     * Get Link entity from long URL.
+     * 
+     * @param string $longUrl Long URL
+     * 
+     * @return Link
+     */
+    public function getLinkEntityFromLongUrl($longUrl)
+    {
+        $q = $this->getRepository()
+                ->createQueryBuilder('l')
+                ->where('l.longUrl = :longUrl')
+                ->setParameter('longUrl', $longUrl);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Get Link entity from hash.
      * 
      * @param string $hash Hash
      * 
      * @return Link
      */
-    public function getLongUrlFromHash($hash)
+    public function getLinkEntityFromHash($hash)
     {
         $q = $this->getRepository()
                 ->createQueryBuilder('l')
                 ->where('l.hash = :hash')
                 ->setParameter('hash', $hash);
-
-        return $q->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * Get long URL from short URL.
-     * 
-     * @param string $shortUrl Short URL
-     * 
-     * @return Link
-     */
-    public function getLongUrlFromShortUrl($shortUrl)
-    {
-        $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.shortUrl = :shortUrl')
-                ->setParameter('shortUrl', $shortUrl);
-
-        return $q->getQuery()->getOneOrNullResult();
-    }
-
-    /**
-     * Get hash from URL.
-     * 
-     * @param string $url Long URL
-     * 
-     * @return Link
-     */
-    public function getHashFromLongUrl($url)
-    {
-        $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.longUrl = :longUrl')
-                ->setParameter('longUrl', $url);
 
         return $q->getQuery()->getOneOrNullResult();
     }
@@ -152,11 +135,14 @@ class Manager extends BaseManager implements ManagerInterface
             isset($providerApiInformations) ? $providerApiInformations : array()
         );
 
-        if ($createdShortUrl = $this->shortener->createShortUrl($this->router->getObjectShowRoute($object))) {
+        $longUrl = $this->router->getObjectShowRoute($object);
+
+        if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
             $link = new Link();
             $link->setObjectEntity(get_class($object));
             $link->setObjectId($object->getId());
             $link->setShortUrl($createdShortUrl['shortUrl']);
+            $link->setLongUrl($longUrl);
             $link->setHash($createdShortUrl['hash']);
             $link->setProvider($this->config['entities'][$objectEntityClass]['provider']);
 

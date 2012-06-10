@@ -55,6 +55,16 @@ interface LinkInterface
     public function setShortUrl($shortUrl);
 
     /**
+     * @return string
+     */
+    public function getLongUrl();
+
+    /**
+     * @param string $shortUrl
+     */
+    public function setLongUrl($longUrl);
+
+    /**
      * @param DateTime $createdAt
      */
     public function setCreatedAt($createdAt);

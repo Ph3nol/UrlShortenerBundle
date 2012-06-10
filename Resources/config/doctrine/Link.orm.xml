@@ -12,6 +12,7 @@
         <field name="objectId" column="object_id" type="integer" length="11" />
         <field name="hash" column="hash" type="string" length="255" />
         <field name="shortUrl" column="short_url" type="string" length="255" />
+        <field name="longUrl" column="long_url" type="string" length="255" />
         <field name="provider" column="provider" type="string" length="50" />
         
         <field name="createdAt" column="created_at" type="datetime" />

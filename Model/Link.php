@@ -47,6 +47,11 @@ class Link implements LinkInterface
     protected $shortUrl;
 
     /**
+     * @var string
+     */
+    protected $longUrl;
+
+    /**
      * @var \DateTime
      */
     protected $createdAt;
@@ -150,6 +155,22 @@ class Link implements LinkInterface
     /**
      * {@inheritdoc}
      */
+    public function getLongUrl()
+    {
+        return $this->longUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLongUrl($longUrl)
+    {
+        $this->longUrl = $longUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
@@ -173,6 +194,7 @@ class Link implements LinkInterface
             'service',
             'hash',
             'shortUrl',
+            'longUrl',
             'createdAt',
         );
     }
