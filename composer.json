@@ -14,8 +14,7 @@
         "symfony/framework-bundle": "2.*",
         "symfony/console": "2.*",
         "doctrine/orm": "2.*",
-        "doctrine/dbal": "2.*",
-        "kriswallsmith/buzz": ">= 0.6"
+        "doctrine/dbal": "2.*"
     },
     "suggest": {
     },
