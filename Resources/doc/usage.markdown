@@ -39,6 +39,11 @@ Soon: an `internal` provider will be used for a self and independant short links
 Render a short link from an object/entity is so easy.
 You just have to use dedicated `render_short_url` Twig function to do it.
 
+There is 2 cases about short URL redering:
+
+- **A short URL exists:** it will be used for render it
+- **There is no existing short URL:** a short URL will be generated before being rendered
+
 Here is a little example:
 
 ```php
@@ -65,4 +70,6 @@ Here is a little example:
 <p>Here is the <a href="{{ render_short_url(content) }}">short generated link</a> from Content entity.</p>
 ```
 
-To be continued.
+This example uses a short URL rendering from a passed entity object.
+It's also possible to use a hash or the long URL to have short one returned.
+Nothing will be returned (`null`) if there is no record about it.
