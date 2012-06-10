@@ -41,7 +41,7 @@ class Bitly implements ProviderInterface
     /**
      * Constructor.
      * 
-     * @param array  $apiData API data passed from bundle configuration file
+     * @param array $apiData API data passed from bundle configuration file
      */
     public function __construct(array $apiData)
     {

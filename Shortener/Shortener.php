@@ -47,12 +47,12 @@ class Shortener implements ShortenerInterface
 
             case 'bitly':
                 $this->provider = new Bitly($providerApiData);
-                
+
                 break;
 
             case 'googl':
                 $this->provider = new Googl($providerApiData);
-                
+
                 break;
         }
     }
@@ -67,7 +67,7 @@ class Shortener implements ShortenerInterface
     public function createShortUrl($longUrl)
     {
         $this->provider->setLongUrl($longUrl);
-        
+
         return $this->provider->create();
     }
 }
