@@ -4,6 +4,7 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Sly\UrlShortenerBundle\Model\EntityCollection;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
 use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
@@ -42,6 +43,11 @@ class Manager extends BaseManager implements ManagerInterface
     protected $config;
 
     /**
+     * @var EntityCollection
+     */
+    protected $configEntities;
+
+    /**
      * Constructor.
      * 
      * @param EntityManager      $em        Entity Manager service
@@ -51,10 +57,27 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em        = $em;
-        $this->shortener = $shortener;
-        $this->router    = $router;
-        $this->config    = $config;
+        $this->em             = $em;
+        $this->shortener      = $shortener;
+        $this->router         = $router;
+        $this->config         = $config;
+        $this->configEntities = $this->setConfigEntitiesCollection();
+    }
+
+    /**
+     * Set config entities collection.
+     * 
+     * @return EntityCollection
+     */
+    public function setConfigEntitiesCollection()
+    {
+        $configEntities = new EntityCollection();
+
+        foreach ($this->config['entities'] as $name => $data) {
+            $configEntities->set($name, $data);
+        }
+
+        return $configEntities;
     }
 
     /**
@@ -68,7 +91,7 @@ class Manager extends BaseManager implements ManagerInterface
     {
         $objectEntityClass = get_class($object);
 
-        if (false === in_array($objectEntityClass, array_keys($this->config['entities']))) {
+        if (false === $this->configEntities->has($objectEntityClass)) {
             throw new \Exception(sprintf('There is no "%s" entity in UrlShortener bundle configuration', $objectEntityClass));
         }
 
@@ -127,15 +150,16 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLink($object)
     {
-        $objectEntityClass = get_class($object);
-        $providerApiInformations = isset($this->config['entities'][$objectEntityClass]['api']) ? $this->config['entities'][$objectEntityClass]['api'] : null;
+        $objectEntityClass       = get_class($object);
+        $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
+        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
 
         $this->shortener->setProvider(
-            $this->config['entities'][$objectEntityClass]['provider'],
+            $objectEntityConfig['provider'],
             isset($providerApiInformations) ? $providerApiInformations : array()
         );
 
-        $longUrl = $this->router->getObjectShowRoute($object);
+        $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
 
         if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
             $link = new Link();
@@ -144,7 +168,7 @@ class Manager extends BaseManager implements ManagerInterface
             $link->setShortUrl($createdShortUrl['shortUrl']);
             $link->setLongUrl($longUrl);
             $link->setHash($createdShortUrl['hash']);
-            $link->setProvider($this->config['entities'][$objectEntityClass]['provider']);
+            $link->setProvider($objectEntityConfig['provider']);
 
             $this->em->persist($link);
             $this->em->flush($link);

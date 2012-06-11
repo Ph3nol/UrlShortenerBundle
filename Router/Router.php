@@ -37,16 +37,17 @@ class Router implements RouterInterface
     /**
      * Get object show route.
      * 
-     * @param object $object Object
+     * @param object $object        Object
+     * @param string $showRouteName Show route name
      * 
      * @return string
      */
-    public function getObjectShowRoute($object)
+    public function getObjectShowRoute($object, $showRouteName)
     {
-        $objectEntityClass = get_class($object);
+        $objectEntityClass  = get_class($object);
 
         $routes = $this->baseRouter->getRouteCollection();
-        $route  = $routes->get($this->config['entities'][$objectEntityClass]['route']);
+        $route  = $routes->get($showRouteName);
 
         preg_match_all('/{(\w*)}/', $route->getPattern(), $matches);
 
@@ -58,6 +59,6 @@ class Router implements RouterInterface
             }
         }
 
-        return $this->baseRouter->generate($this->config['entities'][$objectEntityClass]['route'], $routeElements, true);
+        return $this->baseRouter->generate($showRouteName, $routeElements, true);
     }
 }

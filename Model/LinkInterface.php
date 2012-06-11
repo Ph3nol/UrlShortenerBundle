@@ -60,7 +60,7 @@ interface LinkInterface
     public function getLongUrl();
 
     /**
-     * @param string $shortUrl
+     * @param string $longUrl
      */
     public function setLongUrl($longUrl);
 

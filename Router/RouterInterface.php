@@ -10,9 +10,10 @@ namespace Sly\UrlShortenerBundle\Router;
 interface RouterInterface
 {
     /**
-     * @param object $object Object
+     * @param object $object        Object
+     * @param string $showRouteName Show route name
      * 
      * @return string
      */
-    public function getObjectShowRoute($object);
+    public function getObjectShowRoute($object, $showRouteName);
 }
