@@ -17,6 +17,11 @@ abstract class BaseProvider
     protected $curl;
 
     /**
+     * @var string
+     */
+    protected $longUrl;
+
+    /**
      * Constructor.
      * 
      * @param array $apiData Provider API data from project configuration file
@@ -26,6 +31,16 @@ abstract class BaseProvider
     public function __construct(array $apiData = array())
     {
         $this->curl = new Curl();
+    }
+
+    /**
+     * Set long URL.
+     * 
+     * @param string $longUrl Long URL
+     */
+    public function setLongUrl($longUrl)
+    {
+        $this->longUrl = $longUrl;
     }
 
     /**

@@ -29,11 +29,6 @@ class Bitly extends BaseProvider implements ProviderInterface
     /**
      * @var string
      */
-    protected $longUrl;
-
-    /**
-     * @var string
-     */
     protected $creationData;
 
     /**
@@ -48,16 +43,6 @@ class Bitly extends BaseProvider implements ProviderInterface
         $this->apiLogin = $apiData['username'];
         $this->apiKey   = $apiData['key'];
         $this->apiUrl   = 'http://api.bitly.com/v3/shorten';
-    }
-
-    /**
-     * Set long URL.
-     * 
-     * @param string $longUrl Long URL
-     */
-    public function setLongUrl($longUrl)
-    {
-        $this->longUrl = $longUrl;
     }
 
     /**

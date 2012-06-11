@@ -19,11 +19,6 @@ class Googl extends BaseProvider implements ProviderInterface
     /**
      * @var string
      */
-    protected $longUrl;
-
-    /**
-     * @var string
-     */
     protected $creationData;
 
     /**
@@ -34,16 +29,6 @@ class Googl extends BaseProvider implements ProviderInterface
         parent::__construct();
 
         $this->apiUrl = 'https://www.googleapis.com/urlshortener/v1/url';
-    }
-
-    /**
-     * Set long URL.
-     * 
-     * @param string $longUrl Long URL
-     */
-    public function setLongUrl($longUrl)
-    {
-        $this->longUrl = $longUrl;
     }
 
     /**
