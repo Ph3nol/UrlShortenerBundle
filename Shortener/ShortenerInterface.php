@@ -2,8 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
-use Sly\UrlShortenerBundle\Model\LinkInterface;
-
 /**
  * Shortener service interface.
  *
@@ -12,11 +10,9 @@ use Sly\UrlShortenerBundle\Model\LinkInterface;
 interface ShortenerInterface
 {
     /**
-     * Set last Link.
-     * 
-     * @param LinkInterface $lastLink Link
+     * @param array $providerParams Provider parameters
      */
-    public function setLastLink(LinkInterface $lastLink);
+    public function setProviderParams(array $providerParams = array());
 
     /**
      * @param string $provider        Provider name
@@ -30,4 +26,11 @@ interface ShortenerInterface
      * @return string
      */
     public function createShortUrl($longUrl);
+
+    /**
+     * @param integer $bit Bit number
+     * 
+     * @return string
+     */
+    public static function getHashFromBit($bitNumber = 1);
 }

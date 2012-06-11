@@ -2,8 +2,8 @@
 
 namespace Sly\UrlShortenerBundle\Provider;
 
-use Sly\UrlShortenerBundle\Model\LinkInterface;
 use Sly\UrlShortenerBundle\Provider;
+use Sly\UrlShortenerBundle\Shortener\Shortener;
 
 /**
  * Internal provider.
@@ -14,21 +14,6 @@ use Sly\UrlShortenerBundle\Provider;
 class Internal extends BaseProvider implements ProviderInterface
 {
     /**
-     * @var LinkInterface $lastLink
-     */
-    protected $lastLink = null;
-
-    /**
-     * Set last Link.
-     * 
-     * @param LinkInterface $lastLink Link
-     */
-    public function setLastLink(LinkInterface $lastLink)
-    {
-        $this->lastLink = $lastLink;
-    }
-
-    /**
      * Create short URL.
      * 
      * @return array
@@ -37,15 +22,15 @@ class Internal extends BaseProvider implements ProviderInterface
     {
         parent::shorten();
 
-        $lastLinkHash = $this->lastLink ? $this->lastLink->getHash() : null;
+        if (!$this->params['domain']) {
+            throw new \InvalidArgumentException('Internal Provider must have a domain to generate short URLs');
+        }
 
-        /**
-         * @todo
-         */
+        $newLinkHash = Shortener::getHashFromBit($this->params['internalLinksCount']++);
 
         return array(
-            'hash'     => '',
-            'shortUrl' => '',
+            'hash'     => $newLinkHash,
+            'shortUrl' => sprintf('http://%s/%s', $this->params['domain'], $newLinkHash),
         );
     }
 }

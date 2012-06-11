@@ -17,6 +17,11 @@ abstract class BaseProvider
     protected $curl;
 
     /**
+     * @var array $params
+     */
+    protected $params;
+
+    /**
      * @var string
      */
     protected $longUrl;
@@ -25,12 +30,14 @@ abstract class BaseProvider
      * Constructor.
      * 
      * @param array $apiData Provider API data from project configuration file
+     * @param array $params  Provider parameters
      * 
      * @return void
      */
-    public function __construct(array $apiData = array())
+    public function __construct(array $apiData = array(), array $params = array())
     {
-        $this->curl = new Curl();
+        $this->curl   = new Curl();
+        $this->params = $params;
     }
 
     /**

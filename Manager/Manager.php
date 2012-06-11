@@ -142,18 +142,18 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get last internal Link entry.
+     * Get internal links count.
      * 
-     * @return Link
+     * @return integer
      */
-    public function getLastInternalLink()
+    public function getInternalLinksCount()
     {
         $q = $this->getRepository()
                 ->createQueryBuilder('l')
                 ->where('l.provider = :internalProvider')
                 ->setParameter('internalProvider', 'internal');
 
-        return $q->getQuery()->getOneOrNullResult();
+        return count($q->getQuery());
     }
 
     /**
@@ -168,10 +168,10 @@ class Manager extends BaseManager implements ManagerInterface
         $objectEntityClass       = get_class($object);
         $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
         $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
+        $providerParams          = isset($objectEntityConfig['params']) ? $objectEntityConfig['params'] : array();
 
-        if ($lastLink = $this->getLastInternalLink()) {
-            $this->shortener->setLastLink($lastLink);
-        }
+        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
+        $this->shortener->setProviderParams($providerParams);
 
         $this->shortener->setProvider(
             $objectEntityConfig['provider'],

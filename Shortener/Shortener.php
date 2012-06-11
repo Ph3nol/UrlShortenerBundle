@@ -3,7 +3,6 @@
 namespace Sly\UrlShortenerBundle\Shortener;
 
 use Sly\UrlShortenerBundle\Entity\Link;
-use Sly\UrlShortenerBundle\Model\LinkInterface;
 use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 use Sly\UrlShortenerBundle\Provider\Internal,
     Sly\UrlShortenerBundle\Provider\Bitly,
@@ -17,9 +16,9 @@ use Sly\UrlShortenerBundle\Provider\Internal,
 class Shortener implements ShortenerInterface
 {
     /**
-     * @var LinkInterface $lastLink
+     * @var integer $providerParams
      */
-    protected $lastLink = null;
+    protected $providerParams;
 
     /**
      * @var ProviderInterface $provider
@@ -27,13 +26,21 @@ class Shortener implements ShortenerInterface
     protected $provider;
 
     /**
-     * Set last Link.
-     * 
-     * @param LinkInterface $lastLink Link
+     * Constructor.
      */
-    public function setLastLink(LinkInterface $lastLink)
+    public function __construct()
     {
-        $this->lastLink = $lastLink;
+        $this->providerParams = array();
+    }
+
+    /**
+     * Set Provider params.
+     * 
+     * @param array $providerParams Provider parameters
+     */
+    public function setProviderParams(array $providerParams = array())
+    {
+        $this->providerParams = $providerParams;
     }
 
     /**
@@ -50,11 +57,7 @@ class Shortener implements ShortenerInterface
         {
             default:
             case 'internal':
-                $this->provider = new Internal();
-
-                if ($lastLink = $this->lastLink) {
-                    $this->provider->setLastLink($this->lastLink);
-                }
+                $this->provider = new Internal(array(), $this->providerParams);
 
                 break;
 
@@ -82,5 +85,27 @@ class Shortener implements ShortenerInterface
         $this->provider->setLongUrl($longUrl);
 
         return $this->provider->shorten();
+    }
+
+    /**
+     * Get hash from bit.
+     * The trick is to create your own base system with a custom set of characters.
+     * 
+     * @param integer $bit Bit number
+     * 
+     * @return string
+     */
+    public static function getHashFromBit($bitNumber = 1)
+    {
+        $codeSet   = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $base      = strlen($codeSet);
+        $converted = '';
+
+        while ($bitNumber > 0) {
+          $converted = substr($codeSet, ($bitNumber % $base), 1).$converted;
+          $bitNumber = floor($bitNumber / $base);
+        }
+
+        return $converted;
     }
 }
