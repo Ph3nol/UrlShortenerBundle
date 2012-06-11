@@ -31,6 +31,13 @@ interface ManagerInterface
     public function getLinkEntityFromHash($hash);
 
     /**
+     * Get last internal Link entry.
+     * 
+     * @return Link
+     */
+    public function getLastInternalLink();
+
+    /**
      * @param object $object Object
      * 
      * @return Link

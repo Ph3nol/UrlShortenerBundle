@@ -2,6 +2,8 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
+use Sly\UrlShortenerBundle\Model\LinkInterface;
+
 /**
  * Shortener service interface.
  *
@@ -9,6 +11,13 @@ namespace Sly\UrlShortenerBundle\Shortener;
  */
 interface ShortenerInterface
 {
+    /**
+     * Set last Link.
+     * 
+     * @param LinkInterface $lastLink Link
+     */
+    public function setLastLink(LinkInterface $lastLink);
+
     /**
      * @param string $provider        Provider name
      * @param array  $providerApiData Provider API data from project configuration file

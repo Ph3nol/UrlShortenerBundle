@@ -3,6 +3,7 @@
 namespace Sly\UrlShortenerBundle\Shortener;
 
 use Sly\UrlShortenerBundle\Entity\Link;
+use Sly\UrlShortenerBundle\Model\LinkInterface;
 use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 use Sly\UrlShortenerBundle\Provider\Internal,
     Sly\UrlShortenerBundle\Provider\Bitly,
@@ -16,15 +17,23 @@ use Sly\UrlShortenerBundle\Provider\Internal,
 class Shortener implements ShortenerInterface
 {
     /**
+     * @var LinkInterface $lastLink
+     */
+    protected $lastLink = null;
+
+    /**
      * @var ProviderInterface $provider
      */
     protected $provider;
 
     /**
-     * Constructor.
+     * Set last Link.
+     * 
+     * @param LinkInterface $lastLink Link
      */
-    public function __construct()
+    public function setLastLink(LinkInterface $lastLink)
     {
+        $this->lastLink = $lastLink;
     }
 
     /**
@@ -42,6 +51,10 @@ class Shortener implements ShortenerInterface
             default:
             case 'internal':
                 $this->provider = new Internal();
+
+                if ($lastLink = $this->lastLink) {
+                    $this->provider->setLastLink($this->lastLink);
+                }
 
                 break;
 

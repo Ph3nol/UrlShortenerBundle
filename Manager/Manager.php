@@ -142,6 +142,21 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
+     * Get last internal Link entry.
+     * 
+     * @return Link
+     */
+    public function getLastInternalLink()
+    {
+        $q = $this->getRepository()
+                ->createQueryBuilder('l')
+                ->where('l.provider = :internalProvider')
+                ->setParameter('internalProvider', 'internal');
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
      * Create new Link.
      * 
      * @param object $object Object
@@ -153,6 +168,10 @@ class Manager extends BaseManager implements ManagerInterface
         $objectEntityClass       = get_class($object);
         $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
         $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
+
+        if ($lastLink = $this->getLastInternalLink()) {
+            $this->shortener->setLastLink($lastLink);
+        }
 
         $this->shortener->setProvider(
             $objectEntityConfig['provider'],
