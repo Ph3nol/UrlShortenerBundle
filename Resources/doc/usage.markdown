@@ -1,6 +1,8 @@
 SlyUrlShortenerBundle
 ====================
 
+# Usage
+
 ## 1. Configuration bundle informations
 
 You have to define all Links/Entities relations from your application `config.yml` file.

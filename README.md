@@ -1,13 +1,12 @@
-# SlyUrlShortenerBundle
+SlyUrlShortenerBundle
+====================
 
 [![Continuous Integration status](https://secure.travis-ci.org/Ph3nol/UrlShortenerBundle.png)](http://travis-ci.org/Ph3nol/UrlShortenerBundle)
 
-This bundle allows you to manage short URLs, linked to project contents/entities.
+This bundle allows you to generate short URLs, linked to project contents/entities, using distant APIs (bit.ly, goo.gl and others) or internal management.
 
-You actually can use an internal short links manager and current services API like bit.ly and goo.gl.
-
-You are of course invited to contribute to this bundle! :)
+**You are of course invited to [contribute](https://github.com/Ph3nol/UrlShortenerBundle/contributors) to this bundle! :)**
 
 ## Documentation
 
-- [Read Documentation](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/index.markdown)
+- **[Read Documentation](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/index.markdown)**
