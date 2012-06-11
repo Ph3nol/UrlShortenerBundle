@@ -34,9 +34,9 @@ in function of what providers need.
 
 Soon: an `internal` provider will be used for a self and independant short links management.
 
-## 2. Get/Render an entity short link from Twig view
+## 2. Get/Render an entity short URL from Twig view
 
-Render a short link from an object/entity is so easy.
+Render a short URL from an object/entity is so easy.
 You just have to use dedicated `render_short_url` Twig function to do it.
 
 There is 2 cases about short URL redering:
