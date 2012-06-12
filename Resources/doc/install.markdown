@@ -72,6 +72,12 @@ public function registerBundles()
 }
 ```
 
-## 4. Let's go!
+## 4. Generate Database Schema
+
+Finally, you have to generate your database schema with this Symfony command:
+
+```php app/console doctrine:schema:update --force```
+
+## 5. Let's go!
 
 Now, take a look at the [usage part](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/usage.markdown) of this bundle.
