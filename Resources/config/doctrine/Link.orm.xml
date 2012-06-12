@@ -8,8 +8,8 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="objectEntity" column="object_entity" type="string" length="255" />
-        <field name="objectId" column="object_id" type="integer" length="11" />
+        <field name="objectEntity" column="object_entity" type="string" length="255" nullable="true" />
+        <field name="objectId" column="object_id" type="integer" length="11" nullable="true" />
         <field name="hash" column="hash" type="string" length="255" />
         <field name="shortUrl" column="short_url" type="string" length="255" />
         <field name="longUrl" column="long_url" type="string" length="255" />

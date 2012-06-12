@@ -40,7 +40,14 @@ interface ManagerInterface
      * 
      * @return Link
      */
-    public function createNewLink($object);
+    public function createNewLinkFromObject($object);
+
+    /**
+     * @param string $longUrl Long URL
+     * 
+     * @return Link
+     */
+    public function createNewLinkFromUrl($longUrl);
 
     /**
      * @param mixed $item Item (hash, URL or object)

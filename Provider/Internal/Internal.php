@@ -27,7 +27,7 @@ class Internal extends BaseProvider implements ProviderInterface
             throw new \InvalidArgumentException('Internal Provider must have a domain to generate short URLs');
         }
 
-        $newLinkHash = Shortener::getHashFromBit($this->params['internalLinksCount']++);
+        $newLinkHash = Shortener::getHashFromBit($this->params['internalLinksCount'] + 1);
 
         return array(
             'hash'     => $newLinkHash,

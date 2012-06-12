@@ -25,6 +25,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder
             ->root('sly_url_shortener')
             ->children()
+                ->scalarNode('provider')->defaultValue('googl')->end()
+                ->variableNode('params')->defaultValue(array())->end()
                 ->variableNode('entities')->defaultValue(array())->end()
             ->end();
 

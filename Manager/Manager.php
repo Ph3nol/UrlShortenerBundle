@@ -100,7 +100,7 @@ class Manager extends BaseManager implements ManagerInterface
                 ->where('l.objectEntity = :objectEntity')
                 ->andWhere('l.objectId = :objectId')
                 ->setParameters(array(
-                    'objectEntity' => get_class($object),
+                    'objectEntity' => $objectEntityClass,
                     'objectId'     => $object->getId(),
                 ));
 
@@ -157,13 +157,13 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Create new Link.
+     * Create new Link from object.
      * 
      * @param object $object Object
      * 
      * @return Link
      */
-    public function createNewLink($object)
+    public function createNewLinkFromObject($object)
     {
         $objectEntityClass       = get_class($object);
         $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
@@ -173,8 +173,10 @@ class Manager extends BaseManager implements ManagerInterface
         $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
         $this->shortener->setProviderParams($providerParams);
 
+        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
+
         $this->shortener->setProvider(
-            $objectEntityConfig['provider'],
+            $provider,
             isset($providerApiInformations) ? $providerApiInformations : array()
         );
 
@@ -188,6 +190,44 @@ class Manager extends BaseManager implements ManagerInterface
             $link->setLongUrl($longUrl);
             $link->setHash($createdShortUrl['hash']);
             $link->setProvider($objectEntityConfig['provider']);
+
+            $this->em->persist($link);
+            $this->em->flush($link);
+        } else {
+            return false;
+        }
+
+        return $link;
+    }
+
+    /**
+     * Create new Link from long URL.
+     * 
+     * @param string $longUrl Long URL
+     * 
+     * @return Link
+     */
+    public function createNewLinkFromUrl($longUrl)
+    {
+        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
+        $providerParams          = (isset($objectEntityConfig) && isset($objectEntityConfig['params'])) ? $objectEntityConfig['params'] : $this->config['params'];
+
+        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
+        $this->shortener->setProviderParams($providerParams);
+
+        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
+
+        $this->shortener->setProvider(
+            $provider,
+            isset($providerApiInformations) ? $providerApiInformations : array()
+        );
+
+        if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
+            $link = new Link();
+            $link->setShortUrl($createdShortUrl['shortUrl']);
+            $link->setLongUrl($longUrl);
+            $link->setHash($createdShortUrl['hash']);
+            $link->setProvider($provider);
 
             $this->em->persist($link);
             $this->em->flush($link);
@@ -230,7 +270,7 @@ class Manager extends BaseManager implements ManagerInterface
         if ($link = $this->getLinkEntityFromObject($object)) {
             return $link->getShortUrl();
         } else {
-            if ($newShortLink = $this->createNewLink($object)) {
+            if ($newShortLink = $this->createNewLinkFromObject($object)) {
                 return $newShortLink->getShortUrl();
             }
         }
@@ -249,6 +289,10 @@ class Manager extends BaseManager implements ManagerInterface
     {
         if ($link = $this->getLinkEntityFromLongUrl($longUrl)) {
             return $link->getShortUrl();
+        } else {
+            if ($newShortLink = $this->createNewLinkFromUrl($longUrl)) {
+                return $newShortLink->getShortUrl();
+            }
         }
 
         return null;
