@@ -4,7 +4,7 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Sly\UrlShortenerBundle\Model\EntityCollection;
+use Sly\UrlShortenerBundle\Config\Config;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
 use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
@@ -61,23 +61,7 @@ class Manager extends BaseManager implements ManagerInterface
         $this->shortener      = $shortener;
         $this->router         = $router;
         $this->config         = $config;
-        $this->configEntities = $this->setConfigEntitiesCollection();
-    }
-
-    /**
-     * Set config entities collection.
-     * 
-     * @return EntityCollection
-     */
-    public function setConfigEntitiesCollection()
-    {
-        $configEntities = new EntityCollection();
-
-        foreach ($this->config['entities'] as $name => $data) {
-            $configEntities->set($name, $data);
-        }
-
-        return $configEntities;
+        $this->configEntities = Config::getEntryCollectionFromConfig($config);
     }
 
     /**

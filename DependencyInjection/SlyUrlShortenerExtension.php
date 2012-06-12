@@ -28,6 +28,18 @@ class SlyUrlShortenerExtension extends Extension
         $loader->load('router.xml');
         $loader->load('twig.xml');
 
-        $container->setParameter('sly_url_shortener.config', $configs[0]);
+        // Configuration management and overloads
+
+        $configuration = $configs[0];
+
+        foreach ($configuration['entities'] as $entityName => $entityParams) {
+            foreach (array('provider', 'domain', 'api_username', 'api_key') as $param) {
+                if (empty($configuration['entities'][$entityName][$param])) {
+                    $configuration['entities'][$entityName][$param] = isset($configuration[$param]) ? $configuration[$param] : null;
+                }
+            }
+        }
+
+        $container->setParameter('sly_url_shortener.config', $configuration);
     }
 }
