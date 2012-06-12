@@ -6,6 +6,9 @@ SlyUrlShortenerBundle
 - [Installation](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/install.markdown)
 - [Usage](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/usage.markdown)
 - [Example](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/example.markdown) (soon)
+- Full configuration (soon)
+- Advanced example (soon)
+- How to add an internal or external Provider (soon)
 
 # Services
 
