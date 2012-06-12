@@ -72,6 +72,28 @@ Here is a little example:
 <p>Here is the <a href="{{ render_short_url(content) }}">short generated link</a> from Content entity.</p>
 ```
 
-This example uses a short URL rendering from a passed entity object.
+## 3. Direct use of the UrlShortener Manager service
+
+You can directly use `sly_url_shortener` service to generate short URLs:
+
+```php
+<?php
+// DemoController.php
+
+    /**
+     * @Route("/content/{id}.html", name="content_show")
+     * @Template()
+     */
+    public function showContent(Content $content)
+    {
+        $urlShortener = $this->container->get('sly_url_shortener');
+
+        return new Response(sprintf('My generated content-linked short URL: %s', $urlShortener->getShortUrl($content)));
+    }
+```
+
+-----
+
+This examples use a short URL rendering from a passed entity object.
 It's also possible to use a hash or the long URL to have short one returned.
 Nothing will be returned (`null`) if there is no record about it.
