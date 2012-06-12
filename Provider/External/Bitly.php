@@ -1,6 +1,9 @@
 <?php
 
-namespace Sly\UrlShortenerBundle\Provider;
+namespace Sly\UrlShortenerBundle\Provider\External;
+
+use Sly\UrlShortenerBundle\Provider\BaseProvider;
+use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 
 /**
  * Bitly provider.

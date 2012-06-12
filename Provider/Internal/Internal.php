@@ -1,8 +1,9 @@
 <?php
 
-namespace Sly\UrlShortenerBundle\Provider;
+namespace Sly\UrlShortenerBundle\Provider\Internal;
 
-use Sly\UrlShortenerBundle\Provider;
+use Sly\UrlShortenerBundle\Provider\BaseProvider;
+use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
 
 /**

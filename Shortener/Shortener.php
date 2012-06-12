@@ -4,9 +4,9 @@ namespace Sly\UrlShortenerBundle\Shortener;
 
 use Sly\UrlShortenerBundle\Entity\Link;
 use Sly\UrlShortenerBundle\Provider\ProviderInterface;
-use Sly\UrlShortenerBundle\Provider\Internal,
-    Sly\UrlShortenerBundle\Provider\Bitly,
-    Sly\UrlShortenerBundle\Provider\Googl;
+use Sly\UrlShortenerBundle\Provider\Internal\Internal,
+    Sly\UrlShortenerBundle\Provider\External\Bitly,
+    Sly\UrlShortenerBundle\Provider\External\Googl;
 
 /**
  * Shortener service.
