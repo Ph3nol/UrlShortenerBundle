@@ -91,7 +91,7 @@ class Shortener implements ShortenerInterface
      * Get hash from bit.
      * The trick is to create your own base system with a custom set of characters.
      * 
-     * @param integer $bit Bit number
+     * @param integer $bitNumber Bit number
      * 
      * @return string
      */

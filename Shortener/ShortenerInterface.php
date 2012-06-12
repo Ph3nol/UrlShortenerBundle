@@ -28,7 +28,7 @@ interface ShortenerInterface
     public function createShortUrl($longUrl);
 
     /**
-     * @param integer $bit Bit number
+     * @param integer $bitNumber Bit number
      * 
      * @return string
      */
