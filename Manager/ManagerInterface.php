@@ -3,7 +3,7 @@
 namespace Sly\UrlShortenerBundle\Manager;
 
 /**
- * Manager service.
+ * Manager interface.
  *
  * @author Cédric Dugat <ph3@slynett.com>
  */
@@ -41,4 +41,11 @@ interface ManagerInterface
      * @return Link
      */
     public function createNewLink($object);
+
+    /**
+     * @param mixed $item Item (hash, URL or object)
+     * 
+     * @return string
+     */
+    public function getShortUrl($item);
 }
