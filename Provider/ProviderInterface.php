@@ -10,14 +10,9 @@ namespace Sly\UrlShortenerBundle\Provider;
 interface ProviderInterface
 {
     /**
-     * Set long URL.
-     *
      * @param string $longUrl Long URL
-     */
-    public function setLongUrl($longUrl);
-
-    /**
+	 *
      * @return array Generated short URL informations
      */
-    public function shorten();
+    public function shorten($longUrl);
 }

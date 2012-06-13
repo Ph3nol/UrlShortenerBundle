@@ -36,26 +36,4 @@ abstract class BaseProvider
         $this->curl   = new Curl();
         $this->config = $config;
     }
-
-    /**
-     * Set long URL.
-     *
-     * @param string $longUrl Long URL
-     */
-    public function setLongUrl($longUrl)
-    {
-        $this->longUrl = $longUrl;
-    }
-
-    /**
-     * Create short URL from API.
-     *
-     * @return void
-     */
-    public function shorten()
-    {
-        if (!$this->longUrl) {
-            throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
-        }
-    }
 }

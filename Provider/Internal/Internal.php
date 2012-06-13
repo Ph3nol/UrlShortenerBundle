@@ -15,14 +15,11 @@ use Sly\UrlShortenerBundle\Shortener\Shortener;
 class Internal extends BaseProvider implements ProviderInterface
 {
     /**
-     * Create short URL.
-     *
-     * @return array
+     * Create short URL in internal.
+     * {@inheritdoc}
      */
-    public function shorten()
+    public function shorten($longUrl)
     {
-        parent::shorten();
-
         if (!$this->config['domain']) {
             throw new \InvalidArgumentException('Internal Provider must have a domain to generate short URLs');
         }
