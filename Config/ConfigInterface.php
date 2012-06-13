@@ -10,6 +10,8 @@ namespace Sly\UrlShortenerBundle\Config;
 interface ConfigInterface
 {
     /**
+     * Get EntryCollection from configuration.
+     *
      * @param array $config Configuration
      *
      * @return EntryCollection

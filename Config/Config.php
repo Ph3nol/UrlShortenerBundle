@@ -12,11 +12,7 @@ use Sly\UrlShortenerBundle\Model\EntityCollection;
 class Config implements ConfigInterface
 {
     /**
-     * Get EntryCollection from configuration.
-     *
-     * @param array $config Configuration
-     *
-     * @return EntryCollection
+     * {@inheritdoc}
      */
     public static function getEntryCollectionFromConfig(array $config)
     {

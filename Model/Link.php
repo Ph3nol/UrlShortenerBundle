@@ -81,8 +81,6 @@ class Link implements LinkInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param object $object Object
      */
     public function setObject($object)
     {

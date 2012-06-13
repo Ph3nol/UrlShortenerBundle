@@ -17,6 +17,8 @@ interface ShortenerInterface
     public function setProvider(array $config);
 
     /**
+     * Create short URL.
+     *
      * @param string $longUrl Long URL
      *
      * @return string
@@ -24,6 +26,9 @@ interface ShortenerInterface
     public function createShortUrl($longUrl);
 
     /**
+     * Get hash from bit.
+     * The trick is to create your own base system with a custom set of characters.
+     *
      * @param integer $bitNumber Bit number
      *
      * @return string

@@ -30,8 +30,6 @@ abstract class BaseProvider
      * Constructor.
      *
      * @param array $config Configuration
-     *
-     * @return void
      */
     public function __construct(array $config = array())
     {

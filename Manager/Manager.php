@@ -10,9 +10,9 @@ use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
 use Sly\UrlShortenerBundle\Router\RouterInterface;
 use Sly\UrlShortenerBundle\Entity\Link;
-use Sly\UrlShortenerBundle\Provider\Internal,
-    Sly\UrlShortenerBundle\Provider\Bitly,
-    Sly\UrlShortenerBundle\Provider\Googl;
+use Sly\UrlShortenerBundle\Provider\Internal;
+use Sly\UrlShortenerBundle\Provider\Bitly;
+use Sly\UrlShortenerBundle\Provider\Googl;
 
 /**
  * Manager service.
@@ -66,11 +66,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get Link entity from linked object.
-     *
-     * @param object $object Object
-     *
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromObject($object)
     {
@@ -93,11 +89,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get Link entity from long URL.
-     *
-     * @param string $longUrl Long URL
-     *
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromLongUrl($longUrl)
     {
@@ -110,11 +102,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get Link entity from hash.
-     *
-     * @param string $hash Hash
-     *
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromHash($hash)
     {
@@ -127,9 +115,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get internal links count.
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getInternalLinksCount()
     {
@@ -142,11 +128,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Create new Link from object.
-     *
-     * @param object $object Object
-     *
-     * @return Link
+     * {@inheritdoc}
      */
     public function createNewLinkFromObject($object)
     {
@@ -172,11 +154,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Create new Link from long URL.
-     *
-     * @param string $longUrl Long URL
-     *
-     * @return Link
+     * {@inheritdoc}
      */
     public function createNewLinkFromUrl($longUrl)
     {
@@ -215,11 +193,7 @@ class Manager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * Get short URL.
-     *
-     * @param mixed $item Item (hash, URL or object)
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getShortUrl($item)
     {

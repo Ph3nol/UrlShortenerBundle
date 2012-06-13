@@ -33,9 +33,7 @@ class Shortener implements ShortenerInterface
     }
 
     /**
-     * Set Provider instance.
-     *
-     * @param string $config
+     * {@inheritdoc}
      */
     public function setProvider(array $config)
     {
@@ -61,11 +59,7 @@ class Shortener implements ShortenerInterface
     }
 
     /**
-     * Create short URL.
-     *
-     * @param string $longUrl Long URL
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function createShortUrl($longUrl)
     {
@@ -75,12 +69,7 @@ class Shortener implements ShortenerInterface
     }
 
     /**
-     * Get hash from bit.
-     * The trick is to create your own base system with a custom set of characters.
-     *
-     * @param integer $bitNumber Bit number
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public static function getHashFromBit($bitNumber = 1)
     {
