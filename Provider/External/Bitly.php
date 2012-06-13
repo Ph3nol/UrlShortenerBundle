@@ -14,6 +14,8 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
  */
 class Bitly extends BaseProvider implements ProviderInterface
 {
+    CONST API_URL = 'http://api.bitly.com/v3/shorten';
+
     /**
      * @var string
      */
@@ -23,11 +25,6 @@ class Bitly extends BaseProvider implements ProviderInterface
      * @var string
      */
     protected $apiKey;
-
-    /**
-     * @var string
-     */
-    protected $apiUrl;
 
     /**
      * @var string
@@ -47,7 +44,6 @@ class Bitly extends BaseProvider implements ProviderInterface
 
         $this->apiLogin = $config['api_username'];
         $this->apiKey   = $config['api_key'];
-        $this->apiUrl   = 'http://api.bitly.com/v3/shorten';
     }
 
     /**
@@ -60,12 +56,13 @@ class Bitly extends BaseProvider implements ProviderInterface
         parent::shorten();
 
         $curlResquest = $this->curl;
-        $curlResquest->setUrl($this->apiUrl);
+        $curlResquest->setUrl(self::API_URL);
         $curlResquest->setGetData(array('longUrl' => $this->longUrl, 'login' => $this->apiLogin, 'apiKey' => $this->apiKey));
 
         $response = $curlResquest->getResponse();
 
         if ($response->status_code == 200 && $response->status_txt == 'OK') {
+
             return array(
                 'hash'     => $response->data->hash,
                 'shortUrl' => $response->data->url,
