@@ -2,7 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Model;
 
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Link model.
@@ -82,8 +81,6 @@ class Link implements LinkInterface
 
     /**
      * {@inheritdoc}
-     * 
-     * @param object $object Object
      */
     public function setObject($object)
     {

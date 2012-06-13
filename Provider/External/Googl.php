@@ -26,9 +26,9 @@ class Googl extends BaseProvider implements ProviderInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param array $config Configuration
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -40,7 +40,7 @@ class Googl extends BaseProvider implements ProviderInterface
 
     /**
      * Create short URL from API.
-     * 
+     *
      * @return array
      */
     public function shorten()
@@ -61,9 +61,9 @@ class Googl extends BaseProvider implements ProviderInterface
 
     /**
      * Get hash from short URL.
-     * 
+     *
      * @param string $shortUrl Short URL
-     * 
+     *
      * @return string
      */
     protected function getHashFromShortUrl($shortUrl)

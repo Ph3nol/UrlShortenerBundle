@@ -16,7 +16,7 @@ class Internal extends BaseProvider implements ProviderInterface
 {
     /**
      * Create short URL.
-     * 
+     *
      * @return array
      */
     public function shorten()

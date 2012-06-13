@@ -35,9 +35,7 @@ class LinkManager implements LinkManagerInterface
     }
 
     /**
-     * Get entity manager.
-     *
-     * @return ObjectManager
+     * {@inheritdoc}
      */
     public function getEntityManager()
     {

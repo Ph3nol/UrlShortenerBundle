@@ -10,9 +10,9 @@ use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
 use Sly\UrlShortenerBundle\Router\RouterInterface;
 use Sly\UrlShortenerBundle\Entity\Link;
-use Sly\UrlShortenerBundle\Provider\Internal,
-    Sly\UrlShortenerBundle\Provider\Bitly,
-    Sly\UrlShortenerBundle\Provider\Googl;
+use Sly\UrlShortenerBundle\Provider\Internal;
+use Sly\UrlShortenerBundle\Provider\Bitly;
+use Sly\UrlShortenerBundle\Provider\Googl;
 
 /**
  * Manager service.
@@ -49,7 +49,7 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param EntityManager      $em        Entity Manager service
      * @param ShortenerInterface $shortener Shortener service
      * @param RouterInterface    $router    Bundle Router service
@@ -57,20 +57,16 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em                           = $em;
-        $this->shortener                    = $shortener;
-        $this->router                       = $router;
-        $this->config                       = $config;
-        $this->config['internalCount']      = $this->getInternalLinksCount();
-        $this->configEntities               = Config::getEntryCollectionFromConfig($config);
+        $this->em                      = $em;
+        $this->shortener               = $shortener;
+        $this->router                  = $router;
+        $this->config                  = $config;
+        $this->config['internalCount'] = $this->getInternalLinksCount();
+        $this->configEntities          = Config::getEntryCollectionFromConfig($config);
     }
 
     /**
-     * Get Link entity from linked object.
-     * 
-     * @param object $object Object
-     * 
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromObject($object)
     {
@@ -81,72 +77,58 @@ class Manager extends BaseManager implements ManagerInterface
         }
 
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.objectEntity = :objectEntity')
-                ->andWhere('l.objectId = :objectId')
-                ->setParameters(array(
-                    'objectEntity' => $objectEntityClass,
-                    'objectId'     => $object->getId(),
-                ));
+            ->createQueryBuilder('l')
+            ->where('l.objectEntity = :objectEntity')
+            ->andWhere('l.objectId = :objectId')
+            ->setParameters(array(
+                'objectEntity' => $objectEntityClass,
+                'objectId'     => $object->getId(),
+            ));
 
         return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * Get Link entity from long URL.
-     * 
-     * @param string $longUrl Long URL
-     * 
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromLongUrl($longUrl)
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.longUrl = :longUrl')
-                ->setParameter('longUrl', $longUrl);
+            ->createQueryBuilder('l')
+            ->where('l.longUrl = :longUrl')
+            ->setParameter('longUrl', $longUrl);
 
         return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * Get Link entity from hash.
-     * 
-     * @param string $hash Hash
-     * 
-     * @return Link
+     * {@inheritdoc}
      */
     public function getLinkEntityFromHash($hash)
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.hash = :hash')
-                ->setParameter('hash', $hash);
+            ->createQueryBuilder('l')
+            ->where('l.hash = :hash')
+            ->setParameter('hash', $hash);
 
         return $q->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * Get internal links count.
-     * 
-     * @return integer
+     * {@inheritdoc}
      */
     public function getInternalLinksCount()
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.provider = :internalProvider')
-                ->setParameter('internalProvider', 'internal');
+            ->createQueryBuilder('l')
+            ->where('l.provider = :internalProvider')
+            ->setParameter('internalProvider', 'internal');
 
         return count($q->getQuery());
     }
 
     /**
-     * Create new Link from object.
-     * 
-     * @param object $object Object
-     * 
-     * @return Link
+     * {@inheritdoc}
      */
     public function createNewLinkFromObject($object)
     {
@@ -166,17 +148,13 @@ class Manager extends BaseManager implements ManagerInterface
             $this->em->flush($link);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Create new Link from long URL.
-     * 
-     * @param string $longUrl Long URL
-     * 
-     * @return Link
+     * {@inheritdoc}
      */
     public function createNewLinkFromUrl($longUrl)
     {
@@ -187,16 +165,16 @@ class Manager extends BaseManager implements ManagerInterface
             $this->em->flush($link);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Get new Link entity.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return Link
      */
     protected function getNewLinkEntity($longUrl)
@@ -209,36 +187,32 @@ class Manager extends BaseManager implements ManagerInterface
             $link->setProvider($this->config['provider']);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Get short URL.
-     * 
-     * @param mixed $item Item (hash, URL or object)
-     * 
-     * @return string
+     * {@inheritdoc}
      */
     public function getShortUrl($item)
     {
         if (is_object($item)) {
             return $this->getShortUrlFromObject($item);
+        }
+
+        if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
+            return $this->getShortUrlFromLongUrl($item);
         } else {
-            if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
-                return $this->getShortUrlFromLongUrl($item);
-            } else {
-                return $this->getShortUrlFromHash($item);
-            }
+            return $this->getShortUrlFromHash($item);
         }
     }
 
     /**
      * Get from Url.
-     * 
+     *
      * @param object $object Entity object
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromObject($object)
@@ -256,9 +230,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get short URL from long one.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromLongUrl($longUrl)
@@ -276,9 +250,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get short URL from hash.
-     * 
+     *
      * @param string $hash Hash
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromHash($hash)
@@ -292,7 +266,7 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get repository from entity manager.
-     * 
+     *
      * @return EntityRepository
      */
     protected function getRepository()

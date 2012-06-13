@@ -9,13 +9,13 @@ use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
- * 
+ *
  * @author Cédric Dugat <ph3@slynett.com>
  */
 class SlyUrlShortenerExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
