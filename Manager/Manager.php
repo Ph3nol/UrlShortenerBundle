@@ -149,39 +149,45 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromObject($object)
     {
-        $objectEntityClass       = get_class($object);
-        $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
-        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
-        $providerParams          = isset($objectEntityConfig['params']) ? $objectEntityConfig['params'] : array();
+        /**
+         * @todo Recode it with new configuration management.
+         */
 
-        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
-        $this->shortener->setProviderParams($providerParams);
+        return 'TODO';
 
-        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
+        // $objectEntityClass       = get_class($object);
+        // $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
+        // $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
+        // $providerParams          = isset($objectEntityConfig['params']) ? $objectEntityConfig['params'] : array();
 
-        $this->shortener->setProvider(
-            $provider,
-            isset($providerApiInformations) ? $providerApiInformations : array()
-        );
+        // $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
+        // $this->shortener->setProviderParams($providerParams);
 
-        $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
+        // $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
 
-        if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
-            $link = new Link();
-            $link->setObjectEntity(get_class($object));
-            $link->setObjectId($object->getId());
-            $link->setShortUrl($createdShortUrl['shortUrl']);
-            $link->setLongUrl($longUrl);
-            $link->setHash($createdShortUrl['hash']);
-            $link->setProvider($objectEntityConfig['provider']);
+        // $this->shortener->setProvider(
+        //     $provider,
+        //     isset($providerApiInformations) ? $providerApiInformations : array()
+        // );
 
-            $this->em->persist($link);
-            $this->em->flush($link);
-        } else {
-            return false;
-        }
+        // $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
 
-        return $link;
+        // if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
+        //     $link = new Link();
+        //     $link->setObjectEntity(get_class($object));
+        //     $link->setObjectId($object->getId());
+        //     $link->setShortUrl($createdShortUrl['shortUrl']);
+        //     $link->setLongUrl($longUrl);
+        //     $link->setHash($createdShortUrl['hash']);
+        //     $link->setProvider($objectEntityConfig['provider']);
+
+        //     $this->em->persist($link);
+        //     $this->em->flush($link);
+        // } else {
+        //     return false;
+        // }
+
+        // return $link;
     }
 
     /**
@@ -193,25 +199,16 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromUrl($longUrl)
     {
-        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
-        $providerParams          = (isset($objectEntityConfig) && isset($objectEntityConfig['params'])) ? $objectEntityConfig['params'] : $this->config['params'];
+        $this->config['internalLinksCount'] = $this->getInternalLinksCount();
 
-        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
-        $this->shortener->setProviderParams($providerParams);
-
-        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
-
-        $this->shortener->setProvider(
-            $provider,
-            isset($providerApiInformations) ? $providerApiInformations : array()
-        );
+        $this->shortener->setProvider($this->config);
 
         if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
             $link = new Link();
             $link->setShortUrl($createdShortUrl['shortUrl']);
             $link->setLongUrl($longUrl);
             $link->setHash($createdShortUrl['hash']);
-            $link->setProvider($provider);
+            $link->setProvider($this->config['provider']);
 
             $this->em->persist($link);
             $this->em->flush($link);

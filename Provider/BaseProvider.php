@@ -17,9 +17,9 @@ abstract class BaseProvider
     protected $curl;
 
     /**
-     * @var array $params
+     * @var array $config
      */
-    protected $params;
+    protected $config;
 
     /**
      * @var string
@@ -29,15 +29,14 @@ abstract class BaseProvider
     /**
      * Constructor.
      * 
-     * @param array $apiData Provider API data from project configuration file
-     * @param array $params  Provider parameters
+     * @param array $config Configuration
      * 
      * @return void
      */
-    public function __construct(array $apiData = array(), array $params = array())
+    public function __construct(array $config = array())
     {
         $this->curl   = new Curl();
-        $this->params = $params;
+        $this->config = $config;
     }
 
     /**

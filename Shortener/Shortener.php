@@ -16,9 +16,9 @@ use Sly\UrlShortenerBundle\Provider\Internal\Internal,
 class Shortener implements ShortenerInterface
 {
     /**
-     * @var integer $providerParams
+     * @var integer $config
      */
-    protected $providerParams;
+    protected $config;
 
     /**
      * @var ProviderInterface $provider
@@ -30,39 +30,28 @@ class Shortener implements ShortenerInterface
      */
     public function __construct()
     {
-        $this->providerParams = array();
-    }
-
-    /**
-     * Set Provider params.
-     * 
-     * @param array $providerParams Provider parameters
-     */
-    public function setProviderParams(array $providerParams = array())
-    {
-        $this->providerParams = $providerParams;
+        $this->config = array();
     }
 
     /**
      * Set Provider instance.
      * 
-     * @param string $provider        Provider name
-     * @param array  $providerApiData Provider API data from project configuration file
+     * @param string $config
      */
-    public function setProvider($provider, array $providerApiData = array())
+    public function setProvider(array $config)
     {
-        $shortUrlProviderClass = ucfirst($provider);
+        $this->config = $config;
 
-        switch ($provider)
+        switch ($config['provider'])
         {
             default:
             case 'internal':
-                $this->provider = new Internal(array(), $this->providerParams);
+                $this->provider = new Internal($this->config);
 
                 break;
 
             case 'bitly':
-                $this->provider = new Bitly($providerApiData);
+                $this->provider = new Bitly($this->config);
 
                 break;
 

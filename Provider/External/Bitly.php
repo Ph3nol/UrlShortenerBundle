@@ -37,14 +37,16 @@ class Bitly extends BaseProvider implements ProviderInterface
     /**
      * Constructor.
      * 
-     * @param array $apiData API data passed from bundle configuration file
+     * @param array $config Configuration
+     * 
+     * @return void
      */
-    public function __construct(array $apiData)
+    public function __construct(array $config)
     {
         parent::__construct();
 
-        $this->apiLogin = $apiData['username'];
-        $this->apiKey   = $apiData['key'];
+        $this->apiLogin = $config['api_username'];
+        $this->apiKey   = $config['api_key'];
         $this->apiUrl   = 'http://api.bitly.com/v3/shorten';
     }
 

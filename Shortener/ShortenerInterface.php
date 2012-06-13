@@ -10,15 +10,11 @@ namespace Sly\UrlShortenerBundle\Shortener;
 interface ShortenerInterface
 {
     /**
-     * @param array $providerParams Provider parameters
+     * Set Provider instance.
+     * 
+     * @param string $config
      */
-    public function setProviderParams(array $providerParams = array());
-
-    /**
-     * @param string $provider        Provider name
-     * @param array  $providerApiData Provider API data from project configuration file
-     */
-    public function setProvider($provider, array $providerApiData = array());
+    public function setProvider(array $config);
 
     /**
      * @param string $longUrl Long URL
