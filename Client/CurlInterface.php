@@ -11,7 +11,7 @@ interface CurlInterface
 {
     /**
      * @param string $url
-     * 
+     *
      * @return void
      */
     public function setUrl($url);
@@ -23,14 +23,14 @@ interface CurlInterface
 
     /**
      * @param array $postData POST data
-     * 
+     *
      * @return void
      */
     public function setPostData(array $postData = array());
 
     /**
      * @param boolean $objectFormatted Object formatted
-     * 
+     *
      * @return mixed
      */
     public function getResponse($objectFormatted = true);

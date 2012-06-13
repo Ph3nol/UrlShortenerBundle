@@ -2,7 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Twig\Extension;
 
-use Sly\UrlShortenerBundle\Entity\Link;
 use Sly\UrlShortenerBundle\Manager\Manager;
 use Sly\UrlShortenerBundle\Manager\ManagerInterface;
 
@@ -25,7 +24,7 @@ class UrlShortenerExtension extends \Twig_Extension
 
     /**
      * Constructor.
-     * 
+     *
      * @param \Twig_Environment $twig    Twig service
      * @param ManagerInterface  $manager Manager service
      */
@@ -47,9 +46,9 @@ class UrlShortenerExtension extends \Twig_Extension
 
     /**
      * Render short URL.
-     * 
+     *
      * @param mixed $item Item (hash, URL or object)
-     * 
+     *
      * @return string
      */
     public function renderShortUrl($item)

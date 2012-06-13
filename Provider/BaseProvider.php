@@ -28,9 +28,9 @@ abstract class BaseProvider
 
     /**
      * Constructor.
-     * 
+     *
      * @param array $config Configuration
-     * 
+     *
      * @return void
      */
     public function __construct(array $config = array())
@@ -41,7 +41,7 @@ abstract class BaseProvider
 
     /**
      * Set long URL.
-     * 
+     *
      * @param string $longUrl Long URL
      */
     public function setLongUrl($longUrl)
@@ -51,7 +51,7 @@ abstract class BaseProvider
 
     /**
      * Create short URL from API.
-     * 
+     *
      * @return void
      */
     public function shorten()

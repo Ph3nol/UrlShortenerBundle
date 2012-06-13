@@ -49,7 +49,7 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param EntityManager      $em        Entity Manager service
      * @param ShortenerInterface $shortener Shortener service
      * @param RouterInterface    $router    Bundle Router service
@@ -67,9 +67,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get Link entity from linked object.
-     * 
+     *
      * @param object $object Object
-     * 
+     *
      * @return Link
      */
     public function getLinkEntityFromObject($object)
@@ -94,9 +94,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get Link entity from long URL.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return Link
      */
     public function getLinkEntityFromLongUrl($longUrl)
@@ -111,9 +111,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get Link entity from hash.
-     * 
+     *
      * @param string $hash Hash
-     * 
+     *
      * @return Link
      */
     public function getLinkEntityFromHash($hash)
@@ -128,7 +128,7 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get internal links count.
-     * 
+     *
      * @return integer
      */
     public function getInternalLinksCount()
@@ -143,9 +143,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Create new Link from object.
-     * 
+     *
      * @param object $object Object
-     * 
+     *
      * @return Link
      */
     public function createNewLinkFromObject($object)
@@ -173,9 +173,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Create new Link from long URL.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return Link
      */
     public function createNewLinkFromUrl($longUrl)
@@ -194,9 +194,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get new Link entity.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return Link
      */
     protected function getNewLinkEntity($longUrl)
@@ -216,9 +216,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get short URL.
-     * 
+     *
      * @param mixed $item Item (hash, URL or object)
-     * 
+     *
      * @return string
      */
     public function getShortUrl($item)
@@ -236,9 +236,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get from Url.
-     * 
+     *
      * @param object $object Entity object
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromObject($object)
@@ -256,9 +256,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get short URL from long one.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromLongUrl($longUrl)
@@ -276,9 +276,9 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get short URL from hash.
-     * 
+     *
      * @param string $hash Hash
-     * 
+     *
      * @return string
      */
     protected function getShortUrlFromHash($hash)
@@ -292,7 +292,7 @@ class Manager extends BaseManager implements ManagerInterface
 
     /**
      * Get repository from entity manager.
-     * 
+     *
      * @return EntityRepository
      */
     protected function getRepository()

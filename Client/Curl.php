@@ -21,7 +21,7 @@ class Curl implements CurlInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -37,9 +37,9 @@ class Curl implements CurlInterface
 
     /**
      * Set URL.
-     * 
+     *
      * @param string $url
-     * 
+     *
      * @return void
      */
     public function setUrl($url)
@@ -51,7 +51,7 @@ class Curl implements CurlInterface
 
     /**
      * Set GET data.
-     * 
+     *
      * @param array $getData GET data
      */
     public function setGetData(array $getData = array())
@@ -63,9 +63,9 @@ class Curl implements CurlInterface
 
     /**
      * Set POST data.
-     * 
+     *
      * @param array $postData POST data
-     * 
+     *
      * @return void
      */
     public function setPostData(array $postData = array())
@@ -76,9 +76,9 @@ class Curl implements CurlInterface
 
     /**
      * Get CURL response.
-     * 
+     *
      * @param boolean $objectFormatted Object formatted
-     * 
+     *
      * @return mixed
      */
     public function getResponse($objectFormatted = true)

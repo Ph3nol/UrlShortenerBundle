@@ -14,7 +14,7 @@ class Link extends BaseLink
 {
     /**
      * __toString.
-     * 
+     *
      * @return string
      */
     public function __toString()

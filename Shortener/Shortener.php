@@ -2,7 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
-use Sly\UrlShortenerBundle\Entity\Link;
 use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 use Sly\UrlShortenerBundle\Provider\Internal\Internal,
     Sly\UrlShortenerBundle\Provider\External\Bitly,
@@ -35,15 +34,14 @@ class Shortener implements ShortenerInterface
 
     /**
      * Set Provider instance.
-     * 
+     *
      * @param string $config
      */
     public function setProvider(array $config)
     {
         $this->config = $config;
 
-        switch ($config['provider'])
-        {
+        switch ($config['provider']) {
             default:
             case 'internal':
                 $this->provider = new Internal($this->config);
@@ -64,9 +62,9 @@ class Shortener implements ShortenerInterface
 
     /**
      * Create short URL.
-     * 
+     *
      * @param string $longUrl Long URL
-     * 
+     *
      * @return string
      */
     public function createShortUrl($longUrl)
@@ -79,9 +77,9 @@ class Shortener implements ShortenerInterface
     /**
      * Get hash from bit.
      * The trick is to create your own base system with a custom set of characters.
-     * 
+     *
      * @param integer $bitNumber Bit number
-     * 
+     *
      * @return string
      */
     public static function getHashFromBit($bitNumber = 1)

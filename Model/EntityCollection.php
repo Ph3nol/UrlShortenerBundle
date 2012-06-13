@@ -44,7 +44,7 @@ class EntityCollection implements \IteratorAggregate
      * Has method.
      *
      * @param string $entity Entity
-     * 
+     *
      * @return boolean
      */
     public function has($entity)
@@ -54,7 +54,7 @@ class EntityCollection implements \IteratorAggregate
 
     /**
      * Get entities.
-     * 
+     *
      * @return \ArrayIterator
      */
     public function getEntities()
