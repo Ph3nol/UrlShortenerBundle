@@ -4,7 +4,7 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Sly\UrlShortenerBundle\Model\EntityCollection;
+use Sly\UrlShortenerBundle\Config\Config;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
 use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
@@ -57,27 +57,12 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em             = $em;
-        $this->shortener      = $shortener;
-        $this->router         = $router;
-        $this->config         = $config;
-        $this->configEntities = $this->setConfigEntitiesCollection();
-    }
-
-    /**
-     * Set config entities collection.
-     * 
-     * @return EntityCollection
-     */
-    public function setConfigEntitiesCollection()
-    {
-        $configEntities = new EntityCollection();
-
-        foreach ($this->config['entities'] as $name => $data) {
-            $configEntities->set($name, $data);
-        }
-
-        return $configEntities;
+        $this->em                           = $em;
+        $this->shortener                    = $shortener;
+        $this->router                       = $router;
+        $this->config                       = $config;
+        $this->config['internalCount']      = $this->getInternalLinksCount();
+        $this->configEntities               = Config::getEntryCollectionFromConfig($config);
     }
 
     /**
@@ -165,39 +150,25 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromObject($object)
     {
-        $objectEntityClass       = get_class($object);
-        $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
-        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
-        $providerParams          = isset($objectEntityConfig['params']) ? $objectEntityConfig['params'] : array();
+        /**
+         * @todo Recode it with new configuration management.
+         */
 
-        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
-        $this->shortener->setProviderParams($providerParams);
-
-        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
-
-        $this->shortener->setProvider(
-            $provider,
-            isset($providerApiInformations) ? $providerApiInformations : array()
-        );
+        $this->shortener->setProvider($this->config);
 
         $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
 
-        if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
-            $link = new Link();
+        if ($link = $this->getNewLinkEntity($longUrl)) {
             $link->setObjectEntity(get_class($object));
             $link->setObjectId($object->getId());
-            $link->setShortUrl($createdShortUrl['shortUrl']);
-            $link->setLongUrl($longUrl);
-            $link->setHash($createdShortUrl['hash']);
-            $link->setProvider($objectEntityConfig['provider']);
 
             $this->em->persist($link);
             $this->em->flush($link);
+
+            return $link;
         } else {
             return false;
         }
-
-        return $link;
     }
 
     /**
@@ -209,33 +180,38 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromUrl($longUrl)
     {
-        $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
-        $providerParams          = (isset($objectEntityConfig) && isset($objectEntityConfig['params'])) ? $objectEntityConfig['params'] : $this->config['params'];
+        $this->shortener->setProvider($this->config);
 
-        $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
-        $this->shortener->setProviderParams($providerParams);
+        if ($link = $this->getNewLinkEntity($longUrl)) {
+            $this->em->persist($link);
+            $this->em->flush($link);
 
-        $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
+            return $link;
+        } else {
+            return false;
+        }
+    }
 
-        $this->shortener->setProvider(
-            $provider,
-            isset($providerApiInformations) ? $providerApiInformations : array()
-        );
-
+    /**
+     * Get new Link entity.
+     * 
+     * @param string $longUrl Long URL
+     * 
+     * @return Link
+     */
+    protected function getNewLinkEntity($longUrl)
+    {
         if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
             $link = new Link();
             $link->setShortUrl($createdShortUrl['shortUrl']);
             $link->setLongUrl($longUrl);
             $link->setHash($createdShortUrl['hash']);
-            $link->setProvider($provider);
+            $link->setProvider($this->config['provider']);
 
-            $this->em->persist($link);
-            $this->em->flush($link);
+            return $link;
         } else {
             return false;
         }
-
-        return $link;
     }
 
     /**
