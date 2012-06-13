@@ -26,6 +26,10 @@ class Googl extends BaseProvider implements ProviderInterface
 
     /**
      * Constructor.
+     * 
+     * @param array $config Configuration
+     * 
+     * @return void
      */
     public function __construct()
     {
