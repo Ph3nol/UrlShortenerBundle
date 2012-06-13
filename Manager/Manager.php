@@ -57,11 +57,12 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em             = $em;
-        $this->shortener      = $shortener;
-        $this->router         = $router;
-        $this->config         = $config;
-        $this->configEntities = Config::getEntryCollectionFromConfig($config);
+        $this->em                           = $em;
+        $this->shortener                    = $shortener;
+        $this->router                       = $router;
+        $this->config                       = $config;
+        $this->config['internalCount']      = $this->getInternalLinksCount();
+        $this->configEntities               = Config::getEntryCollectionFromConfig($config);
     }
 
     /**
@@ -153,41 +154,21 @@ class Manager extends BaseManager implements ManagerInterface
          * @todo Recode it with new configuration management.
          */
 
-        return 'TODO';
+        $this->shortener->setProvider($this->config);
 
-        // $objectEntityClass       = get_class($object);
-        // $objectEntityConfig      = $this->configEntities->getEntities()->offsetGet($objectEntityClass);
-        // $providerApiInformations = isset($objectEntityConfig['api']) ? $objectEntityConfig['api'] : null;
-        // $providerParams          = isset($objectEntityConfig['params']) ? $objectEntityConfig['params'] : array();
+        $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
 
-        // $providerParams['internalLinksCount'] = $this->getInternalLinksCount();
-        // $this->shortener->setProviderParams($providerParams);
+        if ($link = $this->getNewLinkEntity($longUrl)) {
+            $link->setObjectEntity(get_class($object));
+            $link->setObjectId($object->getId());
 
-        // $provider = (isset($objectEntityConfig) && isset($objectEntityConfig['provider'])) ? $objectEntityConfig['provider'] : $this->config['provider'];
+            $this->em->persist($link);
+            $this->em->flush($link);
 
-        // $this->shortener->setProvider(
-        //     $provider,
-        //     isset($providerApiInformations) ? $providerApiInformations : array()
-        // );
-
-        // $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
-
-        // if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
-        //     $link = new Link();
-        //     $link->setObjectEntity(get_class($object));
-        //     $link->setObjectId($object->getId());
-        //     $link->setShortUrl($createdShortUrl['shortUrl']);
-        //     $link->setLongUrl($longUrl);
-        //     $link->setHash($createdShortUrl['hash']);
-        //     $link->setProvider($objectEntityConfig['provider']);
-
-        //     $this->em->persist($link);
-        //     $this->em->flush($link);
-        // } else {
-        //     return false;
-        // }
-
-        // return $link;
+            return $link;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -199,10 +180,27 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromUrl($longUrl)
     {
-        $this->config['internalLinksCount'] = $this->getInternalLinksCount();
-
         $this->shortener->setProvider($this->config);
 
+        if ($link = $this->getNewLinkEntity($longUrl)) {
+            $this->em->persist($link);
+            $this->em->flush($link);
+
+            return $link;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get new Link entity.
+     * 
+     * @param string $longUrl Long URL
+     * 
+     * @return Link
+     */
+    protected function getNewLinkEntity($longUrl)
+    {
         if ($createdShortUrl = $this->shortener->createShortUrl($longUrl)) {
             $link = new Link();
             $link->setShortUrl($createdShortUrl['shortUrl']);
@@ -210,13 +208,10 @@ class Manager extends BaseManager implements ManagerInterface
             $link->setHash($createdShortUrl['hash']);
             $link->setProvider($this->config['provider']);
 
-            $this->em->persist($link);
-            $this->em->flush($link);
+            return $link;
         } else {
             return false;
         }
-
-        return $link;
     }
 
     /**
