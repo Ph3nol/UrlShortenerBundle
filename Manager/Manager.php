@@ -57,12 +57,12 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
     {
-        $this->em                           = $em;
-        $this->shortener                    = $shortener;
-        $this->router                       = $router;
-        $this->config                       = $config;
-        $this->config['internalCount']      = $this->getInternalLinksCount();
-        $this->configEntities               = Config::getEntryCollectionFromConfig($config);
+        $this->em                      = $em;
+        $this->shortener               = $shortener;
+        $this->router                  = $router;
+        $this->config                  = $config;
+        $this->config['internalCount'] = $this->getInternalLinksCount();
+        $this->configEntities          = Config::getEntryCollectionFromConfig($config);
     }
 
     /**
@@ -77,13 +77,13 @@ class Manager extends BaseManager implements ManagerInterface
         }
 
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.objectEntity = :objectEntity')
-                ->andWhere('l.objectId = :objectId')
-                ->setParameters(array(
-                    'objectEntity' => $objectEntityClass,
-                    'objectId'     => $object->getId(),
-                ));
+            ->createQueryBuilder('l')
+            ->where('l.objectEntity = :objectEntity')
+            ->andWhere('l.objectId = :objectId')
+            ->setParameters(array(
+                'objectEntity' => $objectEntityClass,
+                'objectId'     => $object->getId(),
+            ));
 
         return $q->getQuery()->getOneOrNullResult();
     }
@@ -94,9 +94,9 @@ class Manager extends BaseManager implements ManagerInterface
     public function getLinkEntityFromLongUrl($longUrl)
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.longUrl = :longUrl')
-                ->setParameter('longUrl', $longUrl);
+            ->createQueryBuilder('l')
+            ->where('l.longUrl = :longUrl')
+            ->setParameter('longUrl', $longUrl);
 
         return $q->getQuery()->getOneOrNullResult();
     }
@@ -107,9 +107,9 @@ class Manager extends BaseManager implements ManagerInterface
     public function getLinkEntityFromHash($hash)
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.hash = :hash')
-                ->setParameter('hash', $hash);
+            ->createQueryBuilder('l')
+            ->where('l.hash = :hash')
+            ->setParameter('hash', $hash);
 
         return $q->getQuery()->getOneOrNullResult();
     }
@@ -120,9 +120,9 @@ class Manager extends BaseManager implements ManagerInterface
     public function getInternalLinksCount()
     {
         $q = $this->getRepository()
-                ->createQueryBuilder('l')
-                ->where('l.provider = :internalProvider')
-                ->setParameter('internalProvider', 'internal');
+            ->createQueryBuilder('l')
+            ->where('l.provider = :internalProvider')
+            ->setParameter('internalProvider', 'internal');
 
         return count($q->getQuery());
     }
@@ -148,9 +148,9 @@ class Manager extends BaseManager implements ManagerInterface
             $this->em->flush($link);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -165,9 +165,9 @@ class Manager extends BaseManager implements ManagerInterface
             $this->em->flush($link);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -187,9 +187,9 @@ class Manager extends BaseManager implements ManagerInterface
             $link->setProvider($this->config['provider']);
 
             return $link;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -199,12 +199,12 @@ class Manager extends BaseManager implements ManagerInterface
     {
         if (is_object($item)) {
             return $this->getShortUrlFromObject($item);
+        }
+
+        if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
+            return $this->getShortUrlFromLongUrl($item);
         } else {
-            if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
-                return $this->getShortUrlFromLongUrl($item);
-            } else {
-                return $this->getShortUrlFromHash($item);
-            }
+            return $this->getShortUrlFromHash($item);
         }
     }
 
