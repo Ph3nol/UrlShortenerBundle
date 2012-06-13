@@ -11,7 +11,7 @@ interface ProviderInterface
 {
     /**
      * Set long URL.
-     * 
+     *
      * @param string $longUrl Long URL
      */
     public function setLongUrl($longUrl);

@@ -36,9 +36,9 @@ class Bitly extends BaseProvider implements ProviderInterface
 
     /**
      * Constructor.
-     * 
+     *
      * @param array $config Configuration
-     * 
+     *
      * @return void
      */
     public function __construct(array $config)
@@ -52,7 +52,7 @@ class Bitly extends BaseProvider implements ProviderInterface
 
     /**
      * Create short URL from API.
-     * 
+     *
      * @return array
      */
     public function shorten()

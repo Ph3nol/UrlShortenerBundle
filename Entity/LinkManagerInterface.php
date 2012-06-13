@@ -10,6 +10,8 @@ namespace Sly\UrlShortenerBundle\Entity;
 interface LinkManagerInterface
 {
     /**
+     * Get entity manager.
+     *
      * @return ObjectManager
      */
     public function getEntityManager();

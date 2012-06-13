@@ -10,27 +10,31 @@ namespace Sly\UrlShortenerBundle\Client;
 interface CurlInterface
 {
     /**
+     * Set URL.
+     *
      * @param string $url
-     * 
-     * @return void
      */
     public function setUrl($url);
 
     /**
+     * Set GET data.
+     *
      * @param array $getData GET data
      */
     public function setGetData(array $getData = array());
 
     /**
+     * Set POST data.
+     *
      * @param array $postData POST data
-     * 
-     * @return void
      */
     public function setPostData(array $postData = array());
 
     /**
+     * Get CURL response.
+     *
      * @param boolean $objectFormatted Object formatted
-     * 
+     *
      * @return mixed
      */
     public function getResponse($objectFormatted = true);
