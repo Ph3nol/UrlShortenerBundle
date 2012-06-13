@@ -70,8 +70,8 @@ class Bitly extends BaseProvider implements ProviderInterface
                 'hash'     => $response->data->hash,
                 'shortUrl' => $response->data->url,
             );
-        } else {
-            return null;
         }
+
+        return null;
     }
 }
