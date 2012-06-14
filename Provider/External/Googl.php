@@ -22,17 +22,20 @@ class Googl extends BaseProvider implements ProviderInterface
     protected $creationData;
 
     /**
-     * Create short URL from API.
-     *
-     * @return array
+     * {@inheritdoc}
+     * Create short URL from Googl API.
      */
-    public function shorten()
+    public function shorten($longUrl)
     {
-        parent::shorten();
+        if (empty($longUrl)) {
+            throw new \InvalidArgumentException('Provider can\'t create shortened URL without being based on long one');
+        }
 
         $curlResquest = $this->curl;
         $curlResquest->setUrl(self::API_URL);
-        $curlResquest->setPostData(array('longUrl' => $this->longUrl));
+        $curlResquest->setPostData(array(
+            'longUrl' => $longUrl,
+        ));
 
         $response = $curlResquest->getResponse();
 

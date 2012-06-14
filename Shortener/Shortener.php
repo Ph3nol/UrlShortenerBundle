@@ -63,9 +63,7 @@ class Shortener implements ShortenerInterface
      */
     public function createShortUrl($longUrl)
     {
-        $this->provider->setLongUrl($longUrl);
-
-        return $this->provider->shorten();
+        return $this->provider->shorten($longUrl);
     }
 
     /**
