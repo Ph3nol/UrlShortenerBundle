@@ -14,29 +14,12 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
  */
 class Googl extends BaseProvider implements ProviderInterface
 {
-    /**
-     * @var string
-     */
-    protected $apiUrl;
+    CONST API_URL = 'https://www.googleapis.com/urlshortener/v1/url';
 
     /**
      * @var string
      */
     protected $creationData;
-
-    /**
-     * Constructor.
-     *
-     * @param array $config Configuration
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->apiUrl = 'https://www.googleapis.com/urlshortener/v1/url';
-    }
 
     /**
      * Create short URL from API.
@@ -48,7 +31,7 @@ class Googl extends BaseProvider implements ProviderInterface
         parent::shorten();
 
         $curlResquest = $this->curl;
-        $curlResquest->setUrl($this->apiUrl);
+        $curlResquest->setUrl(self::API_URL);
         $curlResquest->setPostData(array('longUrl' => $this->longUrl));
 
         $response = $curlResquest->getResponse();
