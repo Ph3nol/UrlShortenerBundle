@@ -203,9 +203,9 @@ class Manager extends BaseManager implements ManagerInterface
 
         if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
             return $this->getShortUrlFromLongUrl($item);
-        } else {
-            return $this->getShortUrlFromHash($item);
         }
+
+        return $this->getShortUrlFromHash($item);
     }
 
     /**
@@ -213,7 +213,7 @@ class Manager extends BaseManager implements ManagerInterface
      *
      * @param object $object Entity object
      *
-     * @return string
+     * @return string|null
      */
     protected function getShortUrlFromObject($object)
     {
@@ -224,8 +224,6 @@ class Manager extends BaseManager implements ManagerInterface
                 return $newShortLink->getShortUrl();
             }
         }
-
-        return null;
     }
 
     /**
@@ -233,7 +231,7 @@ class Manager extends BaseManager implements ManagerInterface
      *
      * @param string $longUrl Long URL
      *
-     * @return string
+     * @return string|null
      */
     protected function getShortUrlFromLongUrl($longUrl)
     {
@@ -244,8 +242,6 @@ class Manager extends BaseManager implements ManagerInterface
                 return $newShortLink->getShortUrl();
             }
         }
-
-        return null;
     }
 
     /**
@@ -253,15 +249,13 @@ class Manager extends BaseManager implements ManagerInterface
      *
      * @param string $hash Hash
      *
-     * @return string
+     * @return string|null
      */
     protected function getShortUrlFromHash($hash)
     {
         if ($link = $this->getLinkEntityFromHash($hash)) {
             return $link->getShortUrl();
         }
-
-        return null;
     }
 
     /**
