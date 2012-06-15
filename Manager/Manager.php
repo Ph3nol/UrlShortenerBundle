@@ -121,10 +121,11 @@ class Manager extends BaseManager implements ManagerInterface
     {
         $q = $this->getRepository()
             ->createQueryBuilder('l')
+            ->select('COUNT(l)')
             ->where('l.provider = :internalProvider')
             ->setParameter('internalProvider', 'internal');
 
-        return count($q->getQuery());
+        return $q->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -132,16 +133,16 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromObject($object)
     {
-        /**
-         * @todo Recode it with new configuration management.
-         */
+        $objectEntityName = get_class($object);
+        $configEntities   = $this->configEntities->getEntities();
+        $objectEntity     = $configEntities[$objectEntityName];
 
         $this->shortener->setProvider($this->config);
 
-        $longUrl = $this->router->getObjectShowRoute($object, $objectEntityConfig['route']);
+        $longUrl = $this->router->getObjectShowRoute($object, $objectEntity['route']);
 
         if ($link = $this->getNewLinkEntity($longUrl)) {
-            $link->setObjectEntity(get_class($object));
+            $link->setObjectEntity($objectEntityName);
             $link->setObjectId($object->getId());
 
             $this->em->persist($link);
