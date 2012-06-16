@@ -2,6 +2,8 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
+use Sly\UrlShortenerBundle\Provider\ProviderInterface;
+
 /**
  * Shortener service interface.
  *

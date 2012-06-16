@@ -14,6 +14,8 @@ use Sly\UrlShortenerBundle\Shortener\Shortener;
  */
 class Internal extends BaseProvider implements ProviderInterface
 {
+    CONST PROVIDER_NAME = 'internal';
+    
     /**
      * Create short URL in internal.
      * {@inheritdoc}

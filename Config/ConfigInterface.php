@@ -2,6 +2,8 @@
 
 namespace Sly\UrlShortenerBundle\Config;
 
+use Sly\UrlShortenerBundle\Model\EntityCollection;
+
 /**
  * Config interface.
  *
@@ -10,11 +12,16 @@ namespace Sly\UrlShortenerBundle\Config;
 interface ConfigInterface
 {
     /**
-     * Get EntryCollection from configuration.
-     *
-     * @param array $config Configuration
-     *
-     * @return EntryCollection
+     * Get entity from collection.
+     * 
+     * @param string $entityName Entity name
      */
-    public static function getEntryCollectionFromConfig(array $config);
+    public function getEntity($entityName);
+
+    /**
+     * Get entities collection.
+     * 
+     * @return EntityCollection
+     */
+    public function getEntities();
 }

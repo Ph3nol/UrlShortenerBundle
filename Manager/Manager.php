@@ -4,7 +4,7 @@ namespace Sly\UrlShortenerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Sly\UrlShortenerBundle\Config\Config;
+use Sly\UrlShortenerBundle\Config\ConfigInterface;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
 use Sly\UrlShortenerBundle\Shortener\ShortenerInterface;
 use Sly\UrlShortenerBundle\Router\Router;
@@ -38,31 +38,26 @@ class Manager extends BaseManager implements ManagerInterface
     protected $router;
 
     /**
-     * @var array
+     * @var ConfigInterface
      */
     protected $config;
 
     /**
-     * @var EntityCollection
-     */
-    protected $configEntities;
-
-    /**
      * Constructor.
      *
-     * @param EntityManager      $em        Entity Manager service
-     * @param ShortenerInterface $shortener Shortener service
-     * @param RouterInterface    $router    Bundle Router service
-     * @param array              $config    Bundle configuration
+     * @param EntityManager      $em             Entity Manager service
+     * @param ShortenerInterface $shortener      Shortener service
+     * @param RouterInterface    $router         Bundle Router service
+     * @param ConfigInterface    $config         Configuration service
      */
-    public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, array $config)
+    public function __construct(EntityManager $em, ShortenerInterface $shortener, RouterInterface $router, ConfigInterface $config)
     {
-        $this->em                      = $em;
-        $this->shortener               = $shortener;
-        $this->router                  = $router;
-        $this->config                  = $config;
-        $this->config['internalCount'] = $this->getInternalLinksCount();
-        $this->configEntities          = Config::getEntryCollectionFromConfig($config);
+        $this->em        = $em;
+        $this->shortener = $shortener;
+        $this->router    = $router;
+        $this->config    = $config;
+
+        // $this->config['internalCount'] = $this->getInternalLinksCount();
     }
 
     /**
@@ -72,7 +67,7 @@ class Manager extends BaseManager implements ManagerInterface
     {
         $objectEntityClass = get_class($object);
 
-        if (false === $this->configEntities->has($objectEntityClass)) {
+        if (false === $this->config->getEntities()->has($objectEntityClass)) {
             throw new \Exception(sprintf('There is no "%s" entity in UrlShortener bundle configuration', $objectEntityClass));
         }
 
@@ -134,12 +129,11 @@ class Manager extends BaseManager implements ManagerInterface
     public function createNewLinkFromObject($object)
     {
         $objectEntityName = get_class($object);
-        $configEntities   = $this->configEntities->getEntities();
-        $objectEntity     = $configEntities[$objectEntityName];
+        $this->config     = $this->config->getEntity($objectEntityName);
 
         $this->shortener->setProvider($this->config);
 
-        $longUrl = $this->router->getObjectShowRoute($object, $objectEntity['route']);
+        $longUrl = $this->router->getObjectShowRoute($object, $this->config['route']);
 
         if ($link = $this->getNewLinkEntity($longUrl)) {
             $link->setObjectEntity($objectEntityName);

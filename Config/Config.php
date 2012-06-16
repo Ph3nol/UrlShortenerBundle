@@ -12,16 +12,43 @@ use Sly\UrlShortenerBundle\Model\EntityCollection;
 class Config implements ConfigInterface
 {
     /**
+     * @var $config array
+     */
+    protected $config;
+
+    /**
+     * @var $entities EntityCollection
+     */
+    protected $entities;
+
+    /**
+     * Constructor.
+     * 
+     * @param array $config Configuration
+     */
+    public function __construct(array $config)
+    {
+        $this->config   = $config;
+        $this->entities = new EntityCollection();
+
+        foreach ($this->config['entities'] as $name => $data) {
+            $this->entities->set($name, $data);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public static function getEntryCollectionFromConfig(array $config)
+    public function getEntity($entityName)
     {
-        $configEntities = new EntityCollection();
+        return $this->entities->get($entityName);
+    }
 
-        foreach ($config['entities'] as $name => $data) {
-            $configEntities->set($name, $data);
-        }
-
-        return $configEntities;
+    /**
+     * {@inheritdoc}
+     */
+    public function getEntities()
+    {
+        return $this->entities;
     }
 }

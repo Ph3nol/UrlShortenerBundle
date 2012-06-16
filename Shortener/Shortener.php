@@ -2,10 +2,9 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
-use Sly\UrlShortenerBundle\Provider\ProviderInterface;
-use Sly\UrlShortenerBundle\Provider\Internal\Internal;
-use Sly\UrlShortenerBundle\Provider\External\Bitly;
-use Sly\UrlShortenerBundle\Provider\External\Googl;
+use Sly\UrlShortenerBundle\Provider\Internal\Internal,
+    Sly\UrlShortenerBundle\Provider\External\Bitly,
+    Sly\UrlShortenerBundle\Provider\External\Googl;
 
 /**
  * Shortener service.

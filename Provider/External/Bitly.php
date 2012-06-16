@@ -14,7 +14,8 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
  */
 class Bitly extends BaseProvider implements ProviderInterface
 {
-    CONST API_URL = 'http://api.bitly.com/v3/shorten';
+    CONST PROVIDER_NAME = 'bitly';
+    CONST API_URL       = 'http://api.bitly.com/v3/shorten';
 
     /**
      * @var string

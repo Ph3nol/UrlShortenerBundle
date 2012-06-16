@@ -13,7 +13,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sly_url_shortener.shortener" />
             <argument type="service" id="sly_url_shortener.router" />
-            <argument>%sly_url_shortener.config%</argument>
+            <argument type="service" id="sly_url_shortener.config" />
         </service>
     </services>
 

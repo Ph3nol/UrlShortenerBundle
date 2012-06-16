@@ -14,7 +14,8 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
  */
 class Googl extends BaseProvider implements ProviderInterface
 {
-    CONST API_URL = 'https://www.googleapis.com/urlshortener/v1/url';
+    CONST PROVIDER_NAME = 'googl';
+    CONST API_URL       = 'https://www.googleapis.com/urlshortener/v1/url';
 
     /**
      * @var string

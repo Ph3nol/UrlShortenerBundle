@@ -41,6 +41,18 @@ class EntityCollection implements \IteratorAggregate
     }
 
     /**
+     * Get method.
+     * 
+     * @param string $entity Entity name
+     *
+     * @return array
+     */
+    public function get($entity)
+    {
+        return $this->coll[$entity];
+    }
+
+    /**
      * Has method.
      *
      * @param string $entity Entity
