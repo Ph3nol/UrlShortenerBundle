@@ -3,7 +3,7 @@
 namespace Sly\UrlShortenerBundle\Entity;
 
 use Sly\UrlShortenerBundle\Model\LinkInterface;
-use Sly\UrlShortenerBundle\Entity\LinkManagerInterface;
+use Sly\UrlShortenerBundle\Model\LinkManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -35,9 +35,11 @@ class LinkManager implements LinkManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get entity manager.
+     *
+     * @return ObjectManager
      */
-    public function getEntityManager()
+    protected function getEntityManager()
     {
         return $this->em;
     }
