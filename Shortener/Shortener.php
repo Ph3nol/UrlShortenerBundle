@@ -2,6 +2,7 @@
 
 namespace Sly\UrlShortenerBundle\Shortener;
 
+use Sly\UrlShortenerBundle\Model\LinkManagerInterface;
 use Sly\UrlShortenerBundle\Provider\Internal\Internal,
     Sly\UrlShortenerBundle\Provider\External\Bitly,
     Sly\UrlShortenerBundle\Provider\External\Googl;
@@ -14,9 +15,9 @@ use Sly\UrlShortenerBundle\Provider\Internal\Internal,
 class Shortener implements ShortenerInterface
 {
     /**
-     * @var integer $config
+     * @var LinkManagerInterface
      */
-    protected $config;
+    protected $linkManager;
 
     /**
      * @var ProviderInterface $provider
@@ -25,10 +26,12 @@ class Shortener implements ShortenerInterface
 
     /**
      * Constructor.
+     * 
+     * @param LinkManagerInterface $linkManager Link Manager service
      */
-    public function __construct()
+    public function __construct(LinkManagerInterface $linkManager)
     {
-        $this->config = array();
+        $this->linkManager = $linkManager;
     }
 
     /**
@@ -36,17 +39,15 @@ class Shortener implements ShortenerInterface
      */
     public function setProvider(array $config)
     {
-        $this->config = $config;
-
         switch ($config['provider']) {
             default:
             case 'internal':
-                $this->provider = new Internal($this->config);
+                $this->provider = new Internal($config, $this->linkManager->getInternalCount());
 
                 break;
 
             case 'bitly':
-                $this->provider = new Bitly($this->config);
+                $this->provider = new Bitly($config);
 
                 break;
 

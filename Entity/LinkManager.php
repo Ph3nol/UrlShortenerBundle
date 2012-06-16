@@ -2,9 +2,9 @@
 
 namespace Sly\UrlShortenerBundle\Entity;
 
+use Doctrine\ORM\EntityManager;
 use Sly\UrlShortenerBundle\Model\LinkInterface;
 use Sly\UrlShortenerBundle\Model\LinkManagerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * LinkManager interface.
@@ -20,19 +20,94 @@ class LinkManager implements LinkManagerInterface
     protected $em;
 
     /**
-     * @var string
+     * @param EntityManager $em         Entity manager service
+     * @param string        $repository Repository name
      */
-    protected $link;
+    public function __construct(EntityManager $em, $repository)
+    {
+        $this->em         = $em;
+        $this->repository = $repository;
+    }
 
     /**
-     * @param ObjectManager $em   Entity manager service
-     * @param LinkInterface $link Link model
+     * {@inheritdoc}
      */
-    public function __construct(ObjectManager $em, LinkInterface $link)
+    public function getOneFromObject($object)
     {
-        $this->em = $em;
-        $this->link = $link;
+        $q = $this->getRepository()
+            ->createQueryBuilder('l')
+            ->where('l.objectEntity = :objectEntity')
+            ->andWhere('l.objectId = :objectId')
+            ->setParameters(array(
+                'objectEntity' => get_class($object),
+                'objectId'     => $object->getId(),
+            ));
+
+        return $q->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneFromLongUrl($longUrl)
+    {
+        $q = $this->getRepository()
+            ->createQueryBuilder('l')
+            ->where('l.longUrl = :longUrl')
+            ->setParameter('longUrl', $longUrl);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneFromHash($hash)
+    {
+        $q = $this->getRepository()
+            ->createQueryBuilder('l')
+            ->where('l.hash = :hash')
+            ->setParameter('hash', $hash);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInternalCount()
+    {
+        $q = $this->getRepository()
+            ->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.provider = :internalProvider')
+            ->setParameter('internalProvider', 'internal');
+
+        return $q->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+     public function create(array $config, array $shortenerData, $object = null)
+     {
+        $link = new Link();
+        $link->setShortUrl($shortenerData['shortUrl']);
+        $link->setLongUrl($shortenerData['longUrl']);
+        $link->setHash($shortenerData['hash']);
+        $link->setProvider($config['provider']);
+
+        if ($object && is_object($object))
+        {
+            $link->setObjectEntity(get_class($object));
+            $link->setObjectId($object->getId());
+        }
+
+        $this->getEntityManager()->persist($link);
+        $this->getEntityManager()->flush($link);
+
+        return $link;
+     }
 
     /**
      * Get entity manager.
@@ -42,5 +117,15 @@ class LinkManager implements LinkManagerInterface
     protected function getEntityManager()
     {
         return $this->em;
+    }
+
+    /**
+     * Get repository.
+     *
+     * @return object
+     */
+    protected function getRepository()
+    {
+        return $this->getEntityManager()->getRepository($this->repository);
     }
 }

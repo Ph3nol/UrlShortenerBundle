@@ -43,6 +43,7 @@ class Googl extends BaseProvider implements ProviderInterface
         return array(
             'hash'     => $this->getHashFromShortUrl($response->id),
             'shortUrl' => $response->id,
+            'longUrl'  => $longUrl,
         );
     }
 

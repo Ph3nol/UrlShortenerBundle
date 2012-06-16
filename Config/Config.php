@@ -39,6 +39,16 @@ class Config implements ConfigInterface
     /**
      * {@inheritdoc}
      */
+    public function getConfig()
+    {
+        unset($this->config['entities']);
+
+        return $this->config;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getEntity($entityName)
     {
         return $this->entities->get($entityName);
