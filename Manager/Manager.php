@@ -89,7 +89,7 @@ class Manager extends BaseManager implements ManagerInterface
 
         $longUrl       = $this->router->getObjectShowRoute($object, $this->config['route']);
         $shortenerData = $this->shortener->createShortUrl($longUrl);
-        
+
         return $this->linkManager->create($this->config, $shortenerData, $object);
     }
 

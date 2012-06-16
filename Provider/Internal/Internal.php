@@ -24,16 +24,16 @@ class Internal extends BaseProvider implements ProviderInterface
     /**
      * Constructor.
      * 
-     * @param array  $config              Configuration
+     * @param array   $config             Configuration
      * @param integer $internalLinksCount Internal links count
      */
     public function __construct(array $config = array(), $internalLinksCount = 0)
     {
         parent::__construct($config);
-        
+
         $this->internalLinksCount = $internalLinksCount;
     }
-    
+
     /**
      * Create short URL in internal.
      * {@inheritdoc}

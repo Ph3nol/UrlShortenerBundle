@@ -97,8 +97,7 @@ class LinkManager implements LinkManagerInterface
         $link->setHash($shortenerData['hash']);
         $link->setProvider($config['provider']);
 
-        if ($object && is_object($object))
-        {
+        if ($object && is_object($object)) {
             $link->setObjectEntity(get_class($object));
             $link->setObjectId($object->getId());
         }
