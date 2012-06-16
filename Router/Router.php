@@ -39,8 +39,6 @@ class Router implements RouterInterface
      */
     public function getObjectShowRoute($object, $showRouteName)
     {
-        $objectEntityClass  = get_class($object);
-
         $routes = $this->baseRouter->getRouteCollection();
         $route  = $routes->get($showRouteName);
 
@@ -49,7 +47,7 @@ class Router implements RouterInterface
         foreach ($matches[1] as $e) {
             $eAccessor = sprintf('get%s', ucfirst(Container::camelize($e)));
 
-            if (method_exists($objectEntityClass, $eAccessor)) {
+            if (method_exists(get_class($object), $eAccessor)) {
                 $routeElements[$e] = $object->$eAccessor();
             }
         }
