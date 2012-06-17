@@ -5,6 +5,7 @@ namespace Sly\UrlShortenerBundle\Entity;
 use Doctrine\ORM\EntityManager;
 use Sly\UrlShortenerBundle\Model\LinkInterface;
 use Sly\UrlShortenerBundle\Model\LinkManagerInterface;
+use Sly\UrlShortenerBundle\Provider\Internal\Internal;
 
 /**
  * LinkManager interface.
@@ -75,13 +76,30 @@ class LinkManager implements LinkManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function getOneInternalFromHash($hash)
+    {
+        $q = $this->getRepository()
+            ->createQueryBuilder('l')
+            ->where('l.hash = :hash')
+            ->andWhere('l.provider = :provider')
+            ->setParameters(array(
+                'hash' => $hash,
+                'provider' => Internal::PROVIDER_NAME,
+            ));
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getInternalCount()
     {
         $q = $this->getRepository()
             ->createQueryBuilder('l')
             ->select('COUNT(l)')
             ->where('l.provider = :internalProvider')
-            ->setParameter('internalProvider', 'internal');
+            ->setParameter('internalProvider', Internal::PROVIDER_NAME);
 
         return $q->getQuery()->getSingleScalarResult();
     }

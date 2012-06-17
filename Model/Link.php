@@ -2,7 +2,6 @@
 
 namespace Sly\UrlShortenerBundle\Model;
 
-
 /**
  * Link model.
  *
@@ -96,9 +95,25 @@ class Link implements LinkInterface
     /**
      * {@inheritdoc}
      */
+    public function getObjectEntity()
+    {
+        return $this->objectEntity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setObjectEntity($objectEntity)
     {
         $this->objectEntity = $objectEntity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
     }
 
     /**
@@ -112,9 +127,33 @@ class Link implements LinkInterface
     /**
      * {@inheritdoc}
      */
+    public function isEntity()
+    {
+        return (bool) ($this->getObjectEntity() && $this->getObjectId());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setProvider($provider)
     {
         $this->provider = $provider;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isInternal()
+    {
+        return (bool) $this->getProvider() == \Sly\UrlShortenerBundle\Provider\Internal\Internal::PROVIDER_NAME;
     }
 
     /**

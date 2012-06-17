@@ -25,14 +25,39 @@ interface LinkInterface
     public function setObject($object);
 
     /**
+     * @return string
+     */
+    public function getObjectEntity();
+
+    /**
      * @param string $objectEntity
      */
     public function setObjectEntity($objectEntity);
 
     /**
+     * @return integer
+     */
+    public function getObjectId();
+
+    /**
      * @param string $objectId
      */
     public function setObjectId($objectId);
+
+    /**
+     * @return string
+     */
+    public function getProvider();
+
+    /**
+     * @param string $provider
+     */
+    public function setProvider($provider);
+
+    /**
+     * @return boolean
+     */
+    public function isInternal();
 
     /**
      * @return string

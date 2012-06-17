@@ -39,6 +39,15 @@ interface LinkManagerInterface
     public function getOneFromHash($hash);
 
     /**
+     * Get one internal from hash.
+     * 
+     * @param string $hash Hash
+     * 
+     * @return LinkInterface
+     */
+    public function getOneInternalFromHash($hash);
+
+    /**
      * Get internal links count.
      * 
      * @return integer

@@ -6,12 +6,21 @@
 
     <parameters>
         <parameter key="sly_url_shortener.router.class">Sly\UrlShortenerBundle\Router\Router</parameter>
+        <parameter key="sly_url_shortener.router_listener.class">Sly\UrlShortenerBundle\Router\Listener</parameter>
     </parameters>
 
     <services>
         <service id="sly_url_shortener.router" class="%sly_url_shortener.router.class%">
             <argument type="service" id="router" />
             <argument>%sly_url_shortener.config%</argument>
+        </service>
+
+        <service id="sly_url_shortener.router_listener" class="%sly_url_shortener.router_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onDomainParse" />
+            <argument type="service" id="kernel"></argument>
+            <argument type="service" id="router"></argument>
+            <argument type="service" id="sly_url_shortener.link_manager"></argument>
+            <argument type="service" id="sly_url_shortener.config" />
         </service>
     </services>
 
