@@ -3,6 +3,7 @@
 namespace Sly\UrlShortenerBundle\Config;
 
 use Sly\UrlShortenerBundle\Model\EntityCollection;
+use Sly\UrlShortenerBundle\Provider\Internal\Internal;
 
 /**
  * Config.
@@ -34,6 +35,8 @@ class Config implements ConfigInterface
         foreach ($this->config['entities'] as $name => $data) {
             $this->entities->set($name, $data);
         }
+
+        $this->checkConfiguration();
     }
 
     /**
@@ -60,5 +63,24 @@ class Config implements ConfigInterface
     public function getEntities()
     {
         return $this->entities;
+    }
+
+    /**
+     * Check configuration.
+     * Some logical and requires checks.
+     */
+    protected function checkConfiguration()
+    {
+        $configConfig = $this->getConfig();
+
+        if ($configConfig['provider'] == Internal::PROVIDER_NAME && empty($configConfig['domain'])) {
+            throw new \InvalidArgumentException('Your main config provider is Internal one and must have a domain setted');
+        }
+
+        foreach ($this->getEntities() as $name => $data) {
+            if ($data['provider'] == Internal::PROVIDER_NAME && empty($data['domain'])) {
+                throw new \InvalidArgumentException(sprintf('%s entity\'s provider is Internal and must have a domain setted', $name));
+            }
+        }
     }
 }

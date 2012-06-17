@@ -33,7 +33,7 @@ class SlyUrlShortenerExtension extends Extension
 
         $configuration = $configs[0];
 
-        // Configuration management and overloads
+        /* --- Configuration management and overloads --- */
 
         foreach ($configuration['entities'] as $entityName => $entityParams) {
             foreach (array('provider', 'domain', 'api_username', 'api_key') as $param) {
