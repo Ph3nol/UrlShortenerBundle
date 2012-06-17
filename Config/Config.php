@@ -78,6 +78,10 @@ class Config implements ConfigInterface
         }
 
         foreach ($this->getEntities() as $name => $data) {
+            if (empty($data['route'])) {
+                throw new \InvalidArgumentException(sprintf('%s entity\'s must have a route setted', $name));
+            }
+
             if ($data['provider'] == Internal::PROVIDER_NAME && empty($data['domain'])) {
                 throw new \InvalidArgumentException(sprintf('%s entity\'s provider is Internal and must have a domain setted', $name));
             }

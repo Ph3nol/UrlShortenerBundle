@@ -62,6 +62,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'entities' => array(
                 'Test\Entity\Content' => array(
                     'provider' => 'googl',
+                    'route'    => 'test_route',
                 ),
             ),
         );
