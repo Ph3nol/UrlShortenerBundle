@@ -4,6 +4,8 @@ use Sly\UrlShortenerBundle\Manager\Manager;
 
 /**
  * Manager tests.
+ * 
+ * @author Cédric Dugat <ph3@slynett.com>
  */
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,6 +19,11 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('First Manager test has to be completed');
     }
 
+    /**
+     * Get test configuration.
+     * 
+     * @return array
+     */
     protected function getTestConfig()
     {
         return array(
