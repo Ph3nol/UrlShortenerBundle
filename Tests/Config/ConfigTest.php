@@ -19,7 +19,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $config = new Config($this->getTestConfig());
 
         $this->assertInstanceOf('Sly\UrlShortenerBundle\Config\ConfigInterface', $config);
-        
+
         $this->assertObjectHasAttribute('config', $config);
         $this->assertObjectHasAttribute('entities', $config);
     }
