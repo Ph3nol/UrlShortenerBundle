@@ -13,28 +13,29 @@ Here is an example with a `Content` entity, a `content_show` route, using Google
 sly_url_shortener:
     entities:
         Acme\DemoBundle\Entity\Content:
+            route: content_show # route parameter is required for entities
             provider: googl
-            route: content_show
 ```
 
-Another example with a `Person` entity, a `person_show` route, using Bitly shortener service (`bitly`):
+Another example with a global configuration and a specific `Person` entity one,
+using Bitly shortener service (`bitly`) and its API parameters:
 
 ```yaml
 sly_url_shortener:
+    provider: internal
+    domain: te.st
     entities:
         Acme\DemoBundle\Entity\Person:
-            provider: bitly
-            api:
-                username: Me
-                key: R_MyS3cr3tK3yMyS3cr3tK3yMyS3cr3tK3y
             route: person_show
+            provider: bitly
+            api_username: Me
+            api_key: R_MyS3cr3tK3yMyS3cr3tK3yMyS3cr3tK3y
 ```
 
-As you can see, some providers (like bit.ly) needs API informations.
-These are declared with `api` array, which can accept `username`, `password` and `key`,
-in function of what providers need.
-
-Soon: an `internal` provider will be used for a self and independant short links management.
+Note that `internal` provider requires a `domain` parameter,
+which is your short URLs domain. To granted short links redirection,
+your short domain vHost has to point to your project document root,
+with using an Apache ServerAlias for example.
 
 ## 2. Get/Render an entity short URL from Twig view
 
