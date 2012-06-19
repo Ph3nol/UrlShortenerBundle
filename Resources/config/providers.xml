@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sly_url_shortener.provider_internal.class">Sly\UrlShortenerBundle\Provider\Internal\Internal</parameter>
+        <parameter key="sly_url_shortener.link_manager.class">Sly\UrlShortenerBundle\Model\LinkManager</parameter>
+
+        <parameter key="sly_url_shortener.provider_googl.class">Sly\UrlShortenerBundle\Provider\External\Googl</parameter>
+        
+        <parameter key="sly_url_shortener.provider_bitly.class">Sly\UrlShortenerBundle\Provider\External\Bitly</parameter>
+    </parameters>
+
+    <services>
+        <service id="sly_url_shortener.provider_internal" class="%sly_url_shortener.provider_internal.class%">
+            <tag name="sly_url_shortener.provider"></tag>
+            <argument type="service">%sly_url_shortener.link_manager.class%</argument>
+        </service>
+
+        <service id="sly_url_shortener.provider_googl" class="%sly_url_shortener.provider_googl.class%">
+            <tag name="sly_url_shortener.provider"></tag>
+        </service>
+
+        <service id="sly_url_shortener.provider_bitly" class="%sly_url_shortener.provider_bitly.class%">
+            <tag name="sly_url_shortener.provider"></tag>
+        </service>
+    </services>
+
+</container>

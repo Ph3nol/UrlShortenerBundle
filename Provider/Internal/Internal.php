@@ -2,6 +2,7 @@
 
 namespace Sly\UrlShortenerBundle\Provider\Internal;
 
+use Sly\UrlShortenerBundle\Model\LinkManager;
 use Sly\UrlShortenerBundle\Provider\BaseProvider;
 use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 use Sly\UrlShortenerBundle\Shortener\Shortener;
@@ -24,14 +25,14 @@ class Internal extends BaseProvider implements ProviderInterface
     /**
      * Constructor.
      * 
-     * @param array   $config             Configuration
-     * @param integer $internalLinksCount Internal links count
+     * @param integer $linkManager LinkManager service
+     * @param array   $config      Configuration
      */
-    public function __construct(array $config = array(), $internalLinksCount = 0)
+    public function __construct(LinkManager $linkManager, array $config = array())
     {
         parent::__construct($config);
 
-        $this->internalLinksCount = $internalLinksCount;
+        $this->internalLinksCount = $linkManager->getInternalCount();
     }
 
     /**
