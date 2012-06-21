@@ -12,6 +12,9 @@ class ProviderManager
 {
     protected $providers;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->providers = array();
