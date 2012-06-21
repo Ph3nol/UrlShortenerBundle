@@ -28,12 +28,19 @@ abstract class BaseProvider
 
     /**
      * Constructor.
-     *
+     */
+    public function __construct()
+    {
+        $this->curl = new Curl();
+    }
+
+    /**
+     * Set configuration.
+     * 
      * @param array $config Configuration
      */
-    public function __construct(array $config = array())
+    public function setConfig(array $config)
     {
-        $this->curl   = new Curl();
         $this->config = $config;
     }
 }

@@ -3,6 +3,7 @@
 namespace Sly\UrlShortenerBundle\Shortener;
 
 use Sly\UrlShortenerBundle\Model\LinkManagerInterface;
+use Sly\UrlShortenerBundle\Provider\ProviderManager;
 use Sly\UrlShortenerBundle\Provider\Internal\Internal,
     Sly\UrlShortenerBundle\Provider\External\Bitly,
     Sly\UrlShortenerBundle\Provider\External\Googl;
@@ -27,41 +28,28 @@ class Shortener implements ShortenerInterface
     /**
      * Constructor.
      * 
-     * @param LinkManagerInterface $linkManager Link Manager service
+     * @param LinkManagerInterface $linkManager     Link Manager service
+     * @param ProviderManager      $providerManager Provider Manager service
      */
-    public function __construct(LinkManagerInterface $linkManager)
+    public function __construct(LinkManagerInterface $linkManager, ProviderManager $providerManager)
     {
-        $this->linkManager = $linkManager;
+        $this->linkManager     = $linkManager;
+        $this->providerManager = $providerManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setProvider(array $config)
+    public function initialize(array $config)
     {
-        switch ($config['provider']) {
-            default:
-            case 'internal':
-                $this->provider = new Internal($config, $this->linkManager->getInternalCount());
-
-                break;
-
-            case 'bitly':
-                $this->provider = new Bitly($config);
-
-                break;
-
-            case 'googl':
-                $this->provider = new Googl();
-
-                break;
-        }
+        $this->provider = $this->providerManager->getProvider($config['provider']);
+        $this->provider->setConfig($config);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createShortUrl($longUrl)
+    public function shorten($longUrl)
     {
         return $this->provider->shorten($longUrl);
     }

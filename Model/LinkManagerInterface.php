@@ -57,11 +57,10 @@ interface LinkManagerInterface
     /**
      * Create new Link.
      * 
-     * @param array  $config        Configuration
      * @param array  $shortenerData Data from Shortener service
      * @param object $object        Object (if it is)
      * 
      * @return LinkInterface
      */
-    public function create(array $config, array $shortenerData, $object = null);
+    public function create(array $shortenerData, $object = null);
 }

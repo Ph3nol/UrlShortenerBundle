@@ -17,9 +17,9 @@
 
         <service id="sly_url_shortener.router_listener" class="%sly_url_shortener.router_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onDomainParse" />
-            <argument type="service" id="kernel"></argument>
-            <argument type="service" id="router"></argument>
-            <argument type="service" id="sly_url_shortener.link_manager"></argument>
+            <argument type="service" id="kernel" />
+            <argument type="service" id="router" />
+            <argument type="service" id="sly_url_shortener.link_manager" />
             <argument type="service" id="sly_url_shortener.config" />
         </service>
     </services>

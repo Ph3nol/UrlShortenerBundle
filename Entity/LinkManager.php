@@ -107,13 +107,13 @@ class LinkManager implements LinkManagerInterface
     /**
      * {@inheritdoc}
      */
-     public function create(array $config, array $shortenerData, $object = null)
+     public function create(array $shortenerData, $object = null)
      {
         $link = new Link();
         $link->setShortUrl($shortenerData['shortUrl']);
         $link->setLongUrl($shortenerData['longUrl']);
         $link->setHash($shortenerData['hash']);
-        $link->setProvider($config['provider']);
+        $link->setProvider($shortenerData['provider']);
 
         if ($object && is_object($object)) {
             $link->setObjectEntity(get_class($object));

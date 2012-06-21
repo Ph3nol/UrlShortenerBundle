@@ -12,11 +12,11 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
 interface ShortenerInterface
 {
     /**
-     * Set Provider instance.
+     * Initialize with right loading provider.
      *
-     * @param string $config
+     * @param array $config
      */
-    public function setProvider(array $config);
+    public function initialize(array $config);
 
     /**
      * Create short URL.
@@ -25,7 +25,7 @@ interface ShortenerInterface
      *
      * @return string
      */
-    public function createShortUrl($longUrl);
+    public function shorten($longUrl);
 
     /**
      * Get hash from bit.

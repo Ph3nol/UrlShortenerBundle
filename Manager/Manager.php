@@ -85,12 +85,12 @@ class Manager extends BaseManager implements ManagerInterface
         $objectEntityName = get_class($object);
         $this->config     = $this->config->getEntity($objectEntityName);
 
-        $this->shortener->setProvider($this->config);
+        $this->shortener->initialize($this->config);
 
         $longUrl       = $this->router->getObjectShowRoute($object, $this->config['route']);
-        $shortenerData = $this->shortener->createShortUrl($longUrl);
+        $shortenerData = $this->shortener->shorten($longUrl);
 
-        return $this->linkManager->create($this->config, $shortenerData, $object);
+        return $this->linkManager->create($shortenerData, $object);
     }
 
     /**
@@ -98,11 +98,11 @@ class Manager extends BaseManager implements ManagerInterface
      */
     public function createNewLinkFromUrl($longUrl)
     {
-        $this->shortener->setProvider($this->config->getConfig());
+        $this->shortener->initialize($this->config->getConfig());
 
-        $shortenerData = $this->shortener->createShortUrl($longUrl);
+        $shortenerData = $this->shortener->shorten($longUrl);
 
-        return $this->linkManager->create($this->config->getConfig(), $shortenerData);
+        return $this->linkManager->create($shortenerData);
     }
 
     /**

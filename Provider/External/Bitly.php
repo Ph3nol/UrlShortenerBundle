@@ -20,35 +20,9 @@ class Bitly extends BaseProvider implements ProviderInterface
     /**
      * @var string
      */
-    protected $apiLogin;
-
-    /**
-     * @var string
-     */
-    protected $apiKey;
-
-    /**
-     * @var string
-     */
     protected $creationData;
 
     /**
-     * Constructor.
-     *
-     * @param array $config Configuration
-     *
-     * @return void
-     */
-    public function __construct(array $config = array())
-    {
-        parent::__construct($config);
-
-        $this->apiLogin = $config['api_username'];
-        $this->apiKey   = $config['api_key'];
-    }
-
-    /**
-     * Create short URL from Bitly API.
      * {@inheritdoc}
      */
     public function shorten($longUrl)
@@ -61,8 +35,8 @@ class Bitly extends BaseProvider implements ProviderInterface
         $curlResquest->setUrl(self::API_URL);
         $curlResquest->setGetData(array(
             'longUrl' => $longUrl,
-            'login'   => $this->apiLogin,
-            'apiKey'  => $this->apiKey
+            'login'   => $this->config['api']['username'],
+            'apiKey'  => $this->config['api']['key'],
         ));
 
         $response = $curlResquest->getResponse();
@@ -70,6 +44,7 @@ class Bitly extends BaseProvider implements ProviderInterface
         if ($response->status_code == 200 && $response->status_txt == 'OK') {
 
             return array(
+                'provider' => self::PROVIDER_NAME,
                 'hash'     => $response->data->hash,
                 'shortUrl' => $response->data->url,
                 'longUrl'  => $longUrl,

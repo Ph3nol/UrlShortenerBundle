@@ -24,7 +24,6 @@ class Googl extends BaseProvider implements ProviderInterface
 
     /**
      * {@inheritdoc}
-     * Create short URL from Googl API.
      */
     public function shorten($longUrl)
     {
@@ -41,6 +40,7 @@ class Googl extends BaseProvider implements ProviderInterface
         $response = $curlResquest->getResponse();
 
         return array(
+            'provider' => self::PROVIDER_NAME,
             'hash'     => $this->getHashFromShortUrl($response->id),
             'shortUrl' => $response->id,
             'longUrl'  => $longUrl,

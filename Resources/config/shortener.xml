@@ -11,6 +11,7 @@
     <services>
         <service id="sly_url_shortener.shortener" class="%sly_url_shortener.shortener.class%">
             <argument type="service" id="sly_url_shortener.link_manager" />
+            <argument type="service" id="sly_url_shortener.provider_manager" />
         </service>
     </services>
 
