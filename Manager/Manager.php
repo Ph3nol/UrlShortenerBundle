@@ -21,7 +21,7 @@ use Sly\UrlShortenerBundle\Provider\Googl;
  * @uses BaseManager
  * @author Cédric Dugat <ph3@slynett.com>
  */
-class Manager extends BaseManager implements ManagerInterface
+class Manager implements ManagerInterface
 {
     /**
      * @var EntityManager

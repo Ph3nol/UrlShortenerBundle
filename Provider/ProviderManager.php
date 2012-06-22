@@ -10,15 +10,7 @@ use Sly\UrlShortenerBundle\Provider\ProviderInterface;
  */
 class ProviderManager
 {
-    protected $providers;
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->providers = array();
-    }
+    protected $providers = array();
 
     /**
      * Add a Provider.
