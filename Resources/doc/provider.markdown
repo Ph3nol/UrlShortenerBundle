@@ -47,6 +47,7 @@ class MyProvider extends BaseProvider implements ProviderInterface
     }
 }
 ```
+
 ## 2. Add your service to DiC
 
 Now you just have to
