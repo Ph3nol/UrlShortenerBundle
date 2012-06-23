@@ -3,7 +3,7 @@
       xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Sly\UrlShortenerBundle\Entity\Link" table="url_shortener">
+    <entity name="Sly\UrlShortenerBundle\Entity\Link" table="sly_url_shortener">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
