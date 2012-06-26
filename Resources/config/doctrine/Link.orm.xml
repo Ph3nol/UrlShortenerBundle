@@ -7,6 +7,10 @@
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
+        
+        <indexes>
+            <index name="long_url_idx" columns="long_url" />
+        </indexes>
 
         <field name="objectEntity" column="object_entity" type="string" length="255" nullable="true" />
         <field name="objectId" column="object_id" type="integer" length="11" nullable="true" />
