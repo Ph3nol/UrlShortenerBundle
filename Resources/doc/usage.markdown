@@ -57,7 +57,7 @@ Here is a little example:
      * @Route("/content/{id}.html", name="content_show")
      * @Template()
      */
-    public function showContent(Content $content)
+    public function showContentAction(Content $content)
     {
         return array(
             'content' => $content, // a content is passed to Twig view
@@ -85,7 +85,7 @@ You can directly use `sly_url_shortener` service to generate short URLs:
      * @Route("/content/{id}.html", name="content_show")
      * @Template()
      */
-    public function showContent(Content $content)
+    public function showContentAction(Content $content)
     {
         $urlShortener = $this->container->get('sly_url_shortener');
 

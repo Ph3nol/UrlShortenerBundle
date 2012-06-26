@@ -28,7 +28,7 @@ php bin/vendors install
 Add this package to your `composer.json` file:
 
 ```
-"Ph3nol/UrlShortenerBundle": "dev-master"
+"sly/url-shortener-bundle": "dev-master"
 ```
 
 Then make a Composer vendors installation/update:
