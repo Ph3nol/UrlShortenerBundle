@@ -34,8 +34,10 @@ class Googl extends BaseProvider implements ProviderInterface
         $curlResquest = $this->curl;
         $curlResquest->setUrl(self::API_URL);
 
-        if($this->config['api_key'] !== null) {
-            $curlResquest->setGetData(array('key'=>$this->config['api_key']));
+        if (isset($this->config['api']['key']) && $this->config['api']['key']) {
+            $curlResquest->setGetData(array(
+                'key' => $this->config['api']['key']
+            ));
         }
 
         $curlResquest->setPostData(array(
