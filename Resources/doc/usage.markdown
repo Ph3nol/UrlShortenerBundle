@@ -15,6 +15,8 @@ sly_url_shortener:
         Acme\DemoBundle\Entity\Content:
             route: content_show # route parameter is required for entities
             provider: googl
+            api:
+                key: XXXYYYZZZ
 ```
 
 Another example with a global configuration and a specific `Person` entity one,
@@ -28,8 +30,9 @@ sly_url_shortener:
         Acme\DemoBundle\Entity\Person:
             route: person_show
             provider: bitly
-            api_username: Me
-            api_key: R_MyS3cr3tK3yMyS3cr3tK3yMyS3cr3tK3y
+            api:
+                username: Me
+                key: R_MyS3cr3tK3yMyS3cr3tK3yMyS3cr3tK3y
 ```
 
 Note that `internal` provider requires a `domain` parameter,
