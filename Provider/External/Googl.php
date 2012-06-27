@@ -33,6 +33,11 @@ class Googl extends BaseProvider implements ProviderInterface
 
         $curlResquest = $this->curl;
         $curlResquest->setUrl(self::API_URL);
+
+        if($this->config['api_key'] !== null) {
+            $curlResquest->setGetData(array('key'=>$this->config['api_key']));
+        }
+
         $curlResquest->setPostData(array(
             'longUrl' => $longUrl,
         ));
