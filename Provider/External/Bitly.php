@@ -39,10 +39,17 @@ class Bitly extends BaseProvider implements ProviderInterface
             'apiKey'  => $this->config['api']['key'],
         ));
 
-        $response = $curlResquest->getResponse();
+        try {
+            $response = $curlResquest->getResponse();
+        } catch (\Exception $e) {
+            throw new \UnexpectedValueException(sprintf('Provider "%s" API seems to encounter a communication problem', self::PROVIDER_NAME));
+        }
+
+        if ($response->status_code = 500 && $response->status_txt == 'INVALID_APIKEY') {
+            throw new \UnexpectedValueException(sprintf('Provider "%s" API username and/or key is invalid', ucfirst(self::PROVIDER_NAME)));
+        }
 
         if ($response->status_code == 200 && $response->status_txt == 'OK') {
-
             return array(
                 'provider' => self::PROVIDER_NAME,
                 'hash'     => $response->data->hash,

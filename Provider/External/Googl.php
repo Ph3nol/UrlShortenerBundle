@@ -44,7 +44,15 @@ class Googl extends BaseProvider implements ProviderInterface
             'longUrl' => $longUrl,
         ));
 
-        $response = $curlResquest->getResponse();
+        try {
+            $response = $curlResquest->getResponse();
+        } catch (\Exception $e) {
+            throw new \UnexpectedValueException(sprintf('Provider "%s" API seems to encounter a communication problem', self::PROVIDER_NAME));
+        }
+
+        if (isset($response->error) && $response->error->code == 400) {
+            throw new \UnexpectedValueException(sprintf('Provider "%s" API key seems to be invalid', ucfirst(self::PROVIDER_NAME)));
+        }
 
         return array(
             'provider' => self::PROVIDER_NAME,
