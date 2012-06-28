@@ -10,3 +10,9 @@ This bundle allows you to generate short URLs, linked to project contents/entiti
 ## Documentation
 
 - **[Read Documentation](https://github.com/Ph3nol/UrlShortenerBundle/blob/master/Resources/doc/index.markdown)**
+
+## License
+
+This bundle is under the MIT license. See the complete license in the bundle:
+
+    Resources/meta/LICENSE
