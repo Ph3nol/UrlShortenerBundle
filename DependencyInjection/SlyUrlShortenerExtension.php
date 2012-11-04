@@ -39,7 +39,6 @@ class SlyUrlShortenerExtension extends Extension
         if (empty($configuration['entities'])) {
             $configuration['entities'] = array();
         }
-
         foreach ($configuration['entities'] as $entityName => $entityParams) {
             foreach (array('provider', 'domain', 'api_username', 'api_key') as $param) {
                 if (empty($configuration['entities'][$entityName][$param])) {
@@ -47,7 +46,7 @@ class SlyUrlShortenerExtension extends Extension
                 }
             }
         }
-
+	    $configuration['longUrlIfException'] = $config['longUrlIfException'];
         $container->setParameter('sly_url_shortener.config', $configuration);
     }
 }
