@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
             ->root('sly_url_shortener')
                 ->addDefaultsIfNotSet()
                 ->children()
+                    ->scalarNode('longUrlIfException')->defaultFalse()->end()
                     ->scalarNode('provider')->defaultValue('googl')->cannotBeEmpty()->end()
                     ->scalarNode('domain')->defaultValue(null)->end()
                     ->arrayNode('api')

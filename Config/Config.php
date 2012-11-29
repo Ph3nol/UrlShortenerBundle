@@ -45,7 +45,6 @@ class Config implements ConfigInterface
     public function getConfig()
     {
         unset($this->config['entities']);
-
         return $this->config;
     }
 

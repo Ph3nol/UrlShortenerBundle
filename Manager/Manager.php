@@ -43,6 +43,12 @@ class Manager implements ManagerInterface
      */
     protected $config;
 
+	/**
+	 * Flag to return the long URL if the shortener throws an Exception
+	 * @var bool
+	 */
+	protected $longUrlIfException;
+
     /**
      * Constructor.
      *
@@ -57,6 +63,8 @@ class Manager implements ManagerInterface
         $this->shortener   = $shortener;
         $this->router      = $router;
         $this->config      = $config;
+	    $configArray = $config->getConfig();
+	    $this->longUrlIfException = $configArray['longUrlIfException'];
     }
 
     /**
@@ -83,11 +91,11 @@ class Manager implements ManagerInterface
     public function createNewLinkFromObject($object)
     {
         $objectEntityName = get_class($object);
-        $this->config     = $this->config->getEntity($objectEntityName);
+        $entityConfig     = $this->config->getEntity($objectEntityName);
 
-        $this->shortener->initialize($this->config);
+        $this->shortener->initialize($entityConfig);
 
-        $longUrl       = $this->router->getObjectShowRoute($object, $this->config['route']);
+        $longUrl       = $this->router->getObjectShowRoute($object, $entityConfig['route']);
         $shortenerData = $this->shortener->shorten($longUrl);
 
         return $this->linkManager->create($shortenerData, $object);
@@ -109,14 +117,27 @@ class Manager implements ManagerInterface
      * {@inheritdoc}
      */
     public function getShortUrl($item)
-    {
-        if (is_object($item)) {
-            return $this->getShortUrlFromObject($item);
-        }
+    {   try {
+	        if (is_object($item)) {
+	            return $this->getShortUrlFromObject($item);
+	        }
 
-        if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
-            return $this->getShortUrlFromLongUrl($item);
-        }
+	        if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
+	            return $this->getShortUrlFromLongUrl($item);
+	        }
+	    } catch(\Exception $exception){
+	     	if ($this->longUrlIfException) {
+			     if (is_object($item)) {
+				     $objectEntityName = get_class($item);
+				     $entityConfig     = $this->config->getEntity($objectEntityName);
+				     return $this->router->getObjectShowRoute($item, $entityConfig['route']);
+			     }
+			     if (preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $item)) {
+				     return $item;
+			     }
+		    }
+	        throw $exception;
+	    }
 
         return $this->getShortUrlFromHash($item);
     }

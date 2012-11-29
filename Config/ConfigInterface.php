@@ -24,4 +24,10 @@ interface ConfigInterface
      * @return EntityCollection
      */
     public function getEntities();
+
+	/**
+	 * Extension configuration Array
+	 * @return array
+	 */
+	public function getConfig();
 }
