@@ -3,14 +3,14 @@
     "type": "symfony-bundle",
     "description": "Manage internal and distant shortened URLs easily.",
     "keywords": ["url", "shortener", "shortening", "minilink", "mini", "link", "bitly", "googl", "symfony"],
-    "homepage": "http://github.com/farconada/UrlShortenerBundle",
+    "homepage": "https://github.com/farconada/UrlShortenerBundle",
     "license": "MIT",
     "authors": [{
         "name": "Cédric Dugat",
         "email": "ph3@slynett.com"
 	},{
 		"name": "Community contributors",
-		"homepage": "http://github.com/farconada/UrlShortenerBundle/graphs/contributors"
+		"homepage": "https://github.com/farconada/UrlShortenerBundle/graphs/contributors"
 	}],
     "require": {
         "php": ">=5.3.2",
